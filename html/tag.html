@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+        <!-- 외부스타일 시트를 연결하는 구문형식 -->
+        <link href="../css/cardLayout.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <label>현재 시간 : </label>
+        <span id="time"></span>
+
+        <hr/>
+
+        <div class="container">
+            <div>
+                <!-- 폰트 크기 조절할 때 사용 -->
+                <h1>즐거운 휴가 계획</h1>
+                <!-- 문장을 만들 때 사용 -->
+                <p>투어상품 몰</p>
+            </div>
+
+            <div class="card-list">
+                <div class="card">
+                    <a href="./text.html">
+                        <img src="../img/dog.jpg">
+                        <h3>호캉스</h3>
+                        <button type="button">상세페이지</button>
+                    </a>
+                </div>
+                <div class="card">
+                    라마바
+                </div>
+            </div>
+        </div>
+
+        <script>
+            current = new Date();
+            console.log("debug >>> current , " , current);
+            document.getElementById("time").textContent = 
+                    current.toLocaleTimeString();
+        </script>
+    </body>
+</html>
