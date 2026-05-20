@@ -1,0 +1,50 @@
+.container {
+    border : 1px solid red;
+    width : 1000px;
+    margin : auto;
+}
+
+.tour-title {
+    border : 1px solid blue;
+    /* 상 우 하 좌 */
+    margin : 10px 5px 10px 5px;
+    text-align : center;
+    color : blueviolet;
+    font-weight: bold;
+}
+
+.tour-list {
+    border : 1px solid yellowgreen;
+    /* width : 1000px; */
+    margin : 0px 5px 10px 5px;
+    /* 요소의 영역을 벗어난 경우 내용을 보이지 않게 숨기는 기능 */
+    overflow: hidden;
+}
+
+.tour {
+    border : 1px solid green;
+    border-radius: 5px;
+    display: inline-block;
+    margin : 10px 20px 10px 20px;
+    width : 200px
+}
+
+img {
+    width : 200px;
+    border-radius : 50%
+}
+
+.tour > a {
+    text-decoration: none;
+}
+
+.tour h3, button {
+    text-align: center;
+}
+
+button { 
+    width : 180px;
+    border-radius: 25px;
+    padding : 10px 20px;
+    margin: 10px 5px 10px 10px;
+}
