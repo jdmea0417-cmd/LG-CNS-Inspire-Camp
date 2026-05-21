@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <button type="button" onClick="btnHandler()">click</button> -->
+    <button type="button" id="btn">click</button>
+    <script>
+        /*
+        event? 사용자가 프로그램에 가하는 행위
+        - event (click, keyboard input, mouse, page load, etc....)
+        - event source  (이벤트 행위를 당하는 주체 ex. button)
+        - event handler (arrow function)
+        */
+       const btnHandler = () => {
+            window.alert('btn click');
+       }
+
+       let btn = document.querySelector('#btn');
+       console.log(`debug >>>> typeof ${btn}`);
+       btn.onclick = () => {
+            window.alert('btn click2');
+       };
+    </script>
+</body>
+</html>
