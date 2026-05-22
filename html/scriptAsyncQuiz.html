@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h1 id="title">자바커피</h1>
+        <img id="img" src="../img/img/coffee-pink.jpg" width="200px" height="200px">
+    </div>
+    <div>
+        <button type="button" id="btn">엘지CNS커피</button>
+    </div>
+    <script>
+        /*
+        - 요구사항
+        - step01) 버튼의 이벤트를 감지하는 화살표함수 정의
+        - step02) 버튼의 이벤트가 발생할 때 h1, img 접근하여
+        - step03) img의 src, 속성을 blue 변경
+        - step04) h1 헤딩은 엘지CNS커피로 변경
+        - step05) button catpion 값도 자바커피로 변경
+        */
+        let btn = document.querySelector('#btn')
+        btn.onclick = () => {
+            let title = document.querySelector('#title');
+            let img = document.querySelector('#img');
+
+            if (btn.textContent == "엘지CNS커피") {
+                title.textContent = "엘지CNS커피";
+                img.src = "../img/img/coffee-blue.jpg";
+                btn.textContent = "자바커피";
+            }
+            else {
+                title.textContent = "자바커피";
+                img.src = "../img/img/coffee-pink.jpg";
+                btn.textContent = "엘지CNS커피";
+            }
+        }
+
+        // document.querySelector('#btn').onclick = (e) => {
+        //     console.log(`debug >>>> btn click ${e.target.textContent}`);
+        //     let h1 = document.querySelector('body > div > h1');
+        //     let img = document.querySelector('body > div > img');
+        //     if(e.target.textContent === '엘지CNS커피'){
+        //         h1.textContent = '엘지CNS커피'
+        //         img.src = "../img/img/coffee-blue.jpg";
+        //         e.target.textContent = '자바커피'
+        //     }
+        //     else{
+        //         h1.textContent = '자바커피'
+        //         img.src = "../img/img/coffee-pink.jpg";
+        //         e.target.textContent = '엘지CNS커피'
+        //     }
+        // }
+
+        // array : map(), filter()
+        // map() : 배열의 각 요소를 반환하여 처리하고 새로운 배열을 반환할 때
+        // filter() : 조건에 만족하는 데이터만 추출
+        // 배열 요소의 있는 값을 제곱한 결과를 새로운 배열에 담아서 출력한다면?
+        const numbers = [1,2,3,4,5,6,7];
+        let result = numbers
+        .filter(value => value%2 == 0)
+        .map(value => value ** 2);
+        console.log(`result = ${result}`);
+    </script>
+</body>
+
+</html>

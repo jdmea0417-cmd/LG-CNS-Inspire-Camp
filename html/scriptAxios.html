@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.16.1/dist/axios.min.js"></script>
+    <link href="../css/create.css" rel="stylesheet">
+</head>
+
+<body>
+    <h2>사용자 목록</h2>
+    <div class="container" id="container"></div>
+    <script>
+        // http:// get , post , put , delete
+        let ary = ''
+        const init = async (e) => {
+            container.innerHTML = '';
+            if (ary == '') {
+                await axios.get('https://jsonplaceholder.typicode.com/users')
+                    .then(response => {
+                        console.log("debug >>>> response : ", response);
+                        ary = response.data;
+                        console.log("debug >>>> response array : ", ary)
+
+
+                    })
+                    .catch(err => {
+                        console.log(`debug >>>> err : ${err}`)
+                    })
+            }
+            ary.forEach((instance, index) => {
+                // document.createElement를 통해 원하는 태그 생성 가능
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const name = document.createElement('h3');
+                name.textContent = instance.name;
+
+                const email = document.createElement('p');
+                email.textContent = instance.email;
+
+                const phone = document.createElement('p');
+                phone.textContent = instance.phone;
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn';
+                delBtn.textContent = '삭제';
+
+                card.appendChild(name);
+                card.appendChild(email);
+                card.appendChild(phone);
+                card.appendChild(delBtn);
+
+                container.appendChild(card);
+
+                delBtn.onclick = (e) => {
+                    // window.alert("delete button clicked")
+                    ary.splice(index, 1);
+                    init();
+                }
+            })
+        }
+        init()
+    </script>
+</body>
+
+</html>
