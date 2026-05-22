@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+        - 제어구문(if, switch-case)
+        - 특정한 조건이 주어졌을 때 조건에 만족할 때만 코드를 실행하게 하는 문법
+        - if 비교조건을 가지고 논리값(true | false)을 판단하는 구문
+        - switch ~ case : 특정한 값과 매치되는 경우를 판단하는 구문
+        - 데이터의 타입을 판단하다보면 타입벼노한해야하는 경우도 발생(casting)
+        - parseXXXXX()
+        */
+
+        // let price = 10000;
+        // let age = 20;
+
+        // let inputData = window.parseInt(window.prompt(`나이를 입력하세요 : `));
+        // console.log(`debug type`, typeof inputData);
+        // if( inputData >= age) {
+        //     console.log(`성인이며 결제금액은 ${price}입니다.`)
+        // }
+        // else {
+        //     console.log(`미성년자이며 결제금액은 ${price/2}입니다.`)
+        // }
+        console.log(`debug >>>> switch ~ case`);
+        let inputData = window.parseInt(window.prompt(`원하는 메뉴를 선택하세요 : `));
+        console.log(`debug type`, typeof inputData);
+        switch(inputData) {
+            case 1 : 
+                console.log(`토레타`);
+                break;
+            case 2 : 
+                console.log(`게토레이`);
+                break;
+            case 3 : 
+                console.log(`생수`);
+                break;
+            default : 
+                console.log(`선택하신 번호는 없는 상품입니다.`);
+                break;
+        }
+        // 자판기 : 1. 토레타 2. 게토레이 3. 생수
+
+    </script>
+</body>
+
+</html>

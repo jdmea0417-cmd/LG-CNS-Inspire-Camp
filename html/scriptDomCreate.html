@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <link href="../css/create.css" rel="stylesheet" >
+</head>
+
+<body>
+    <h2>사용자 목록</h2>
+    <div class="container" id="container"></div>
+    <script>
+        let ary = [
+            {
+                name: '임섭순',
+                major: 'cs',
+                phone: '010-xxxx-xxxx'
+            },
+            {
+                name: '임수혁',
+                major: '호텔경영',
+                phone: '010-xxxx-xxxx'
+            },
+            {
+                name: '안예진',
+                major: '생물학',
+                phone: '010-xxxx-xxxx'
+            },
+            {
+                name: '강승원',
+                major: '전기전자',
+                phone: '010-xxxx-xxxx'
+            },
+            {
+                name: '김나연',
+                major: '컴공',
+                phone: '010-xxxx-xxxx'
+            },
+        ]
+        let container = document.querySelector('#container');
+        const init = () => {
+            container.innerHTML ='';
+            ary.forEach((instance, index) => {
+                // document.createElement를 통해 원하는 태그 생성 가능
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const name = document.createElement('h3');
+                name.textContent = instance.name;
+
+                const major = document.createElement('p');
+                major.textContent = instance.major;
+
+                const phone = document.createElement('p');
+                phone.textContent = instance.phone;
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn';
+                delBtn.textContent = '삭제';
+
+                card.appendChild(name);
+                card.appendChild(major);
+                card.appendChild(phone);
+                card.appendChild(delBtn);
+
+                container.appendChild(card);
+
+                delBtn.onclick = (e) => {
+                    // window.alert("delete button clicked")
+                    ary.splice(index, 1);
+                    init();
+                }
+            })
+        }
+        init();
+
+    </script>
+</body>
+
+</html>
