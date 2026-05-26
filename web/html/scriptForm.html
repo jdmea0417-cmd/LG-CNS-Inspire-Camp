@@ -20,6 +20,9 @@
         <label for="pwd" class="form-label">Password:</label>
         <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
     </div>
+
+    <div id="error"></div>
+
     <div class="form-check mb-3">
         <label class="form-check-label">
             <input class="form-check-input" type="checkbox" name="remember"> Remember me
@@ -42,6 +45,15 @@
         btn.onclick = () => {
             let email = document.querySelector('#email').value;
             let password = document.querySelector('#pwd').value;
+            // and(논리 곱), or(논리 합)
+            if(email === '' || password === '') {
+                let err = document.querySelector('#error');
+                err.style.color = 'red';
+                err.textContent = '이메일 또는 패스워드를 입력하세요';
+            }
+            else {
+                // Promise : fetch, axios api 통신
+            }
             const data = {
                 email, 
                 password
