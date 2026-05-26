@@ -13,8 +13,8 @@
         //reject : 통신 실패
         const promise = new Promise((resolve, reject) => {
             setTimeout(() => {
-                //resolve({status : 200 , data : {message : 'success'}});
-                reject({status : 404});
+                resolve({status : 200 , data : {message : 'success'}});
+                //reject({status : 404});
             }, 5000);
         });
         promise.then( response => {

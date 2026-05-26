@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="../script/test.js"></script> -->
+    <script src="../script/main.js" type="module"></script>
+</head>
+
+<body>
+
+    <script>
+        let msg = msg();
+        console.log(`debug >>> msg : ${msg}`);
+
+        const userInfo = {
+            name: {
+                first: "LIM",
+                last: "JS"
+            },
+            addrsee: {
+                city: "seoul",
+                postcode: "123456"
+            },
+            getInfo: () => userInfo
+        };
+        //? : Optional chaining
+        //const postcode = userInfo.address && userInfo.address.postcode;
+        //const postcode = userInfo.address?.postcode;        
+        const postcode = userInfo.address?.['postcode'];
+        userInfo.setInfo?.();
+
+        /*
+        널 병합 연산자(??)
+        */
+        const city = userInfo.address?.city ?? 'gwangju';
+
+        /*
+        Spread Operator : 특정 객체 또는 배열의 값을 새로운 객체와 배열에 복제하는 문법
+        */
+        const instance = {
+            a : 10,
+            b : 20
+        };
+        let newInstance = {...instance};
+        // let newInstance = {
+        //     a : instance.a,
+        //     b : instance.b
+        // };
+        let ary = [1, 2, 3];
+        //let newAry =[ary[0], ary[1], ary[2]];
+        let newAry = {...ary};
+    </script>
+</body>
+
+</html>
