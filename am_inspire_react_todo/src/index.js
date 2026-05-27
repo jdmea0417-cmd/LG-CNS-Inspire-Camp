@@ -16,10 +16,34 @@ import reportWebVitals from './reportWebVitals';
 //     <ButtonPage />
 // );
 
-import ButtonPage from './pages/test/LibraryPage';
+// import ButtonPage from './pages/test/LibraryPage';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <ButtonPage />
+// );
+
+// import EventPage from './pages/event/EventPage';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <EventPage />
+// );
+
+// import CapacityPage from './pages/event/CapacityPage';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <CapacityPage />
+// );
+
+// import RenderingPage from './pages/rendering/RenderingPage';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <RenderingPage />
+// );
+
+import HttpPage from './pages/http/HttpPage';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <ButtonPage />
+    <HttpPage />
 );
 
 // If you want to start measuring performance in your app, pass a function
