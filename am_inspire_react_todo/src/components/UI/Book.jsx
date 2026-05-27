@@ -10,7 +10,7 @@ const Book = ({bookName, price}) => {
                     className='image'/>
             </div>
             <div>
-                <span>{bookName}</span><p/>
+                <span>책 이름 : {bookName}</span><p/>
                 <span>{price}</span>
             </div>
         </div>
