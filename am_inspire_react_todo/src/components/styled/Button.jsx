@@ -1,17 +1,18 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const StyledButton = styled.button`
-    padding : 8px 16px;
-    font-size : 16px;
-    border-width : 1px;
-    border-radius : 8px;
-    curswor : pointer;
+    padding : 8px 16px ;
+    font-size : 16px ; 
+    border-width : 1px ;
+    border-radius : 8px ;
+    cursor : pointer ;
 `;
 
 const Button = (props) => {
     return (
-        <StyledButton onClick={props.onClick} disabled={props.disabled}>{props.title}</StyledButton>
+        <StyledButton   onClick={props.onClick}
+                        disabled={props.disabled}>{props.title}</StyledButton>
     );
 };
 
-export default Button;
+export default Button ;
