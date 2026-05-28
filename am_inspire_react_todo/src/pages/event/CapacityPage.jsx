@@ -31,7 +31,20 @@ const CapacityPage = () => {
         // cnt
         setfull(full => cnt >= capacity);
         setempty(empty => cnt <= 0);
+        // if(cnt == capacity)
+        //     alert("정원이 가득 찼습니다.");
+        // if(cnt == 0)
+        //     alert("퇴장할 인원이 없습니다.")
     }, [cnt]);
+
+    useEffect(() => {
+        if(full == true)
+            alert("정원이 가득 찼습니다.");
+    },[full])
+    useEffect(() => {
+        if(empty == true)
+            alert("퇴장할 인원이 없습니다.");
+    },[empty])
     // template UI
     return (
         <div>

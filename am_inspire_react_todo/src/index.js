@@ -40,10 +40,22 @@ import reportWebVitals from './reportWebVitals';
 //     <RenderingPage />
 // );
 
-import HttpPage from './pages/http/HttpPage';
+// import HttpPage from './pages/http/HttpPage';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <HttpPage />
+// );
+
+// import SignUp from './pages/form/SignUp';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <SignUp />
+// );
+
+import ToyApp from './ToyApp';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <HttpPage />
+    <ToyApp />
 );
 
 // If you want to start measuring performance in your app, pass a function
