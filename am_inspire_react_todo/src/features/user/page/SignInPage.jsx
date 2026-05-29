@@ -122,20 +122,18 @@ const SignInPage = () => {
         setError('');
         setLoading(true);
 
-        const logindata = {
-            email : form.email,
-            password : form.password
-        }
-
         try {
-            const response = await api.get('/users');
-            const users = response.data;
-            const matchedUser = users.find(
-                user => user.email === logindata.email && user.password === logindata.password
-            );
+            const response = await api.get('/users', {
+                params: {
+                    email: form.email,
+                    password: form.password
+                }
+            });
 
-            if (matchedUser) {
-                localStorage.setItem("token", "asdf@qwer.com")
+            // 매칭된 사용자 존재 여부 확인
+            if (response.data.length > 0) {
+                // 토큰에 실제 이메일 저장
+                localStorage.setItem("token", form.email);
                 moveUrl('/blog/index');
             } else {
                 setError('이메일 또는 비밀번호가 올바르지 않습니다.');

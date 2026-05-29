@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/styled/Button"
-
+//페이지 리로딩 x, 페이지 재배치
 const MainPage = () => {
     const writeHandler = () => {
         console.log(`debug >>>> WriterPage로 이동합니다.`);

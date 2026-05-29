@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import Button from "../../../components/styled/Button";
 import { useNavigate } from "react-router-dom";
+import BlogList from "../list/BlogList";
+import api from "../../../api/axios";
+import { useEffect, useState } from "react";
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -41,13 +44,34 @@ const LogoutButton = styled(Button)`
 // 인증, 인가
 
 const BlogMainPage = () => {
+    console.log(`debug >>>> BlogMainPage mount`)
+    const [ary, setAry] = useState([]);
+    const loadData = async () => {
+        // json-server와 통신(get)을 통해서 응답된 데이터를 ary 변수에 바인딩하는 구현
+        await api.get('/blogs')
+            .then(response => {
+                console.log(response);
+                setAry(response.data);
+            })
+            .catch(err => {
+                console.log(`debug >>>> axios request error ${err}`);
+            })
+    }
+    useEffect(() => {
+        loadData();
+    }, []);
+    
     // localStorage 를 이용하여 사용자의 인증 정보를 심고, 공유할 수 있다.
     const token = localStorage.getItem('token');
     const moveUrl = useNavigate();
-    const logoutHandler = () => {
+    console.log(ary);
 
-    }
-    return(
+    const logoutHandler = (e) => {
+        console.log(`debug >>>> BlogMainPage logout button click`);
+        localStorage.removeItem('token');
+        moveUrl('/')
+    }   
+    return (
         <Wrapper>
             <Container>
                 {token && <WelcomeMessage>{token} 님 환영합니다.</WelcomeMessage>}
@@ -55,7 +79,8 @@ const BlogMainPage = () => {
                     onClick={() => { moveUrl('/blog/write'); }} />
                 &nbsp;&nbsp;&nbsp;
                 <Button title='로그아웃'
-                    onClick={logoutHandler()} />
+                    onClick={logoutHandler} />
+                <BlogList blogs={ary} />
             </Container>
         </Wrapper>
     )
