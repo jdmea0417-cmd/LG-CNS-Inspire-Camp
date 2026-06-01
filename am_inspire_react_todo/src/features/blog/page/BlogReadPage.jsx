@@ -96,13 +96,81 @@ const BlogReadPage = () => {
         // status === 201
         console.log(`debug >>>> comment button click`);
         let blogId = blog.id;
-        await api.post('/comments', {comment, email, blogId})
+        await api.post('/comments', { comment, email, blogId })
             .then(response => {
                 console.log(`debug >>>> comment response`);
                 console.log(response)
+                // 부분 리렌더링을 위한 작업(배열)
+                // if(response.status === 201){
+                //     const newComments = response.data[response.data.length - 1];
+                //     setComments( ary => {
+                //         return[...ary, newComments]
+                //     })
+                //     setComment('');
+                // }
+                //부분 리렌더링을 위한 작업(객체)
+                if (response.status === 201) {
+                    const newComment = response.data;
+                    setComments((ary) => {
+                        return [...ary, newComment];
+                    })
+                    //setComments(response.data);
+                    setComment('');
+                }
             })
             .catch(err => {
                 console.log(err);
+            })
+    }
+    const commentDeleteHandler = async (id) => {
+        console.log(`debug >>>> comment delete button click`);
+        console.log(`debug >>>> comment key : ${id}`);
+
+        // 댓글 삭제 후 해당 댓글만 삭제하는 re-rendering 작업 구현
+        /*
+        - 전달받은 식별값을 이용해서 해당 댓글을 삭제할 예정
+        - axios - delete() :  status 204
+        - 프론트쪽에서는 어떤 작업을 수행해야 하는지?
+        - 댓글 UI re-rendering
+        */
+        await api.delete(`comments/${id}`)
+            .then(response => {
+                console.log(`debug >>>> axios request success`);
+                console.log(response)
+                if (response.status === 200) {
+                    setComments(comments.filter((c) => c.id !== id));
+                }
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const commentUpdateHandler = async (id, comment) => {
+        console.log('debug >>>> comment update button click')
+        console.log(`debug >>>> comment update data : ${id}, ${comment}`)
+        /*
+        -axios put()
+        comment update
+        update comments
+        set comment =?
+        where id = 1;
+        */
+        await api.patch(`comments/${id}`, {
+            comment
+        })
+            .then(response => {
+                console.log(`debug >>>> axios request success`);
+                console.log(response)
+                // if (response.status === 200) {
+                //     setComments( ary => {
+                //         ary.map
+                //     })
+                // }
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 
@@ -140,34 +208,41 @@ const BlogReadPage = () => {
                 console.log(err);
             })
     }
+
     useEffect(() => {
         getBlog();
     }, [id])
+
     return (
         <Wrapper>
-            <Container>
-                {email && <WelcomeMessage>{email} 님 환영합니다.</WelcomeMessage>}
-                <Button title='메인페이지'
-                    onClick={() => {
-                        moveUrl(('/blog/index'));
-                    }} />
-                <PostContainer>
-                    <TitleText>{blog.title}</TitleText>
-                    <ContentText>{blog.content}</ContentText>
-                </PostContainer>
-                {/* 블로그 댓글 설계 */}
-                <CommentLabel>작성된 댓글 목록</CommentLabel>
-                <BlogCommentList comments={comments || []} />
+            {!blog.id && <Spinner />}
+            {blog.id &&
+                <Container>
+                    {email && <WelcomeMessage>{email} 님 환영합니다.</WelcomeMessage>}
+                    <Button title='메인페이지'
+                        onClick={() => {
+                            moveUrl(('/blog/index'));
+                        }} />
+                    <PostContainer>
+                        <TitleText>{blog.title}</TitleText>
+                        <ContentText>{blog.content}</ContentText>
+                    </PostContainer>
+                    {/* 블로그 댓글 설계 */}
+                    <CommentLabel>작성된 댓글 목록</CommentLabel>
+                    <BlogCommentList comments={comments || []}
+                        onClick={commentDeleteHandler}
+                        updateClick={commentUpdateHandler} />
 
-                {/* 블로그 댓글 작성 */}
-                <TextInput height={24}
-                    value={comment}
-                    changeHandler={(e) => {
-                        setComment(e.target.value);
-                    }} />
-                <Button title='댓글 작성'
-                    onClick={commentHandler} />
-            </Container>
+                    {/* 블로그 댓글 작성 */}
+                    <TextInput height={24}
+                        value={comment}
+                        changeHandler={(e) => {
+                            setComment(e.target.value);
+                        }} />
+                    <Button title='댓글 작성'
+                        onClick={commentHandler} />
+                </Container>
+            }
         </Wrapper>
     )
 }

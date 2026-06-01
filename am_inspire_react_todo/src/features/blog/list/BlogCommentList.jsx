@@ -14,12 +14,15 @@ const Wrapper = styled.div`
     }
 `;
 
-const BlogCommentList = ({comments}) => {
+const BlogCommentList = ({comments, onClick, updateClick}) => {
     return (
         <Wrapper>
             {
                 comments.map((comment, index) => {
-                    return <BlogCommentItem key={index} comments={comment}/>
+                    return <BlogCommentItem key={index} 
+                        comments={comment}
+                        onClick={onClick} 
+                        updateClick={updateClick}/>
                 })
             }
         </Wrapper>

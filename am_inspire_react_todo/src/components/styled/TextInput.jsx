@@ -14,12 +14,13 @@ const SstyledTextArea = styled.textarea`
     margin-top : 16px ;
 `;
 
-const TextInput = ({ height, value, changeHandler }) => {
+const TextInput = ({ height, value, changeHandler, disabled }) => {
 
     return (
         <SstyledTextArea height={height}
             value={value}
-            onChange={changeHandler} />
+            onChange={changeHandler}
+            disabled={disabled} />
     );
 }
 
