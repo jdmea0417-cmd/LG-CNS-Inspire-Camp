@@ -122,30 +122,41 @@ const SignInPage = () => {
         setError('');
         setLoading(true);
 
-        try {
-            const response = await api.get('/users', {
-                params: {
-                    email: form.email,
-                    password: form.password
-                }
-            });
+        // try {
+        //     const response = await api.get('/users', {
+        //         params: {
+        //             email: form.email,
+        //             password: form.password
+        //         }
+        //     });
 
-            // 매칭된 사용자 존재 여부 확인
-            if (response.data.length > 0) {
-                // 토큰에 실제 이메일 저장
-                localStorage.setItem("token", form.email);
-                moveUrl('/blog/index');
-            } else {
-                setError('이메일 또는 비밀번호가 올바르지 않습니다.');
-            }   
-        } 
-        catch (err) {
+        //     // 매칭된 사용자 존재 여부 확인
+        //     if (response.data.length > 0) {
+        //         // 토큰에 실제 이메일 저장
+        //         localStorage.setItem("token", form.email);
+        //         moveUrl('/blog/index');
+        //     } else {
+        //         setError('이메일 또는 비밀번호가 올바르지 않습니다.');
+        //     }   
+        // } 
+        await api.get(`users?email=${form.email}&password=${form.password}`)
+        .then(response => {
+            if(response.status === 200) {
+                // 인증된 사용자 정보(token - session)를 유지할 수 있어야 함.
+                // 현재 기준으로 sessionStorage, localStorage 사용하여
+                // 인증된 사용자 정보를 저장하고 공유할 수 있다.
+                // token - Authorization(인증)
+                // response.headers.get('Authorization')
+                // 이러한 인증정보를 요청시마다 헤더에 포함해서 전달을 해야 또다시 인증을 요청하지 않는다.
+                const user = response.data[0];
+                localStorage.setItem("token", user.email);
+                moveUrl('/blog/index')
+            }
+        })
+        .catch (err => {
             console.log('로그인 오류:', err);
             setError('로그인 중 오류가 발생했습니다.');
-        } 
-        finally {
-            setLoading(false);
-        }
+        })
     }
 
     const moveUrl = useNavigate();

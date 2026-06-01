@@ -16,7 +16,6 @@ const Wrapper = styled.div`
 
 const BlogList = ({blogs}) =>
 {
-
     return(
         <Wrapper>
             {/* 
