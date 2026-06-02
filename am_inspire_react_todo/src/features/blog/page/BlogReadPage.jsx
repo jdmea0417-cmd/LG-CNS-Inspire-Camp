@@ -163,11 +163,13 @@ const BlogReadPage = () => {
             .then(response => {
                 console.log(`debug >>>> axios request success`);
                 console.log(response)
-                // if (response.status === 200) {
-                //     setComments( ary => {
-                //         ary.map
-                //     })
-                // }
+                if (response.status === 200) {
+                    setComments( ary => {
+                        return ary.map( comment => {
+                            return comment.id === id ? {...comment, comment: comment} : comment
+                        })
+                    })
+                }
             })
             .catch(err => {
                 console.log(err)
