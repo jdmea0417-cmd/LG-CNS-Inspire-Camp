@@ -52,10 +52,22 @@ import reportWebVitals from './reportWebVitals';
 //     <SignUp />
 // );
 
-import ToyApp from './ToyApp';
+// import ToyApp from './ToyApp';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <ToyApp />
+// );
+
+// import ContextApp from './ContextApp';
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <ContextApp />
+// );
+
+import OpenApiWeatherPage from './features/openapi/OpenApiWeatherPage';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <ToyApp />
+    <OpenApiWeatherPage />
 );
 
 // If you want to start measuring performance in your app, pass a function
