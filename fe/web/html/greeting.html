@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content=""width=device-width, initial-scale="1.0">
+        <title>Document</title>
+
+        <!-- 문서상에서 css(스타일)를 적용하고자 할 때 사용하는 태그 -->
+        <link>
+    </head>
+
+    <body>
+        <div    align="center" 
+                id="info"
+                style="background-color: aquamarine;">
+            <!-- html 주석구문입니다. -->
+            섭섭이와 &nbsp;&nbsp;&nbsp; 함께하는 즐거운<br/>
+            Front-End(html, css ,javascript)
+        </div>
+
+        <!-- 문서상에서 특정 태그(요소, 엘리먼트)에 접근하여 스크립트 작업을 할 때 -->
+         <!-- ES6 기준 -->
+        <script>
+            info = document.getElementById('info');
+            console.log(">>>>>>>>>>>>>>>>>>>>> info");
+            console.log(info);
+        </script>
+    </body>
+</html>
+

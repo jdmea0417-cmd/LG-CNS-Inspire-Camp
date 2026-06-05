@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="../css/card.css" rel="stylesheet"
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="tour-title">
+                <h2>섭섭몰</h2>
+                <p>투어상품을 소개합니다</p>
+            </div>
+            
+            <div class="tour-list" id="tour-list">
+                
+            </div>
+        </div>   
+
+        <script>
+            let cardAry = [
+                {
+                    img : 'tr-1.png',
+                    heading : '호캉스',
+                    btn : '상세페이지'
+                },
+                {
+                    img : 'tr-2.png',
+                    heading : '사이판',
+                    btn : '상세페이지'
+                },
+                {
+                    img : 'tr-3.png',
+                    heading : '스키장',
+                    btn : '상세페이지'
+                },
+                {
+                    img : 'tr-4.png',
+                    heading : '이스탄불',
+                    btn : '상세페이지'
+                }
+            ];
+            /*
+            Quiz 요구사항
+            - 위에서 정의한 데이터를 활용하여
+            - 페이지 로드 이벤트시 카드관련 div 작성하여
+            - 해당 영역에 이미지와 헤딩을 만들어서
+            - 화면에 출력해 보세요
+            */
+            let node = document.querySelector('#tour-list');
+            //node.innerHTML = `<div align = 'center' >heading</div/`;
+            let divTag = '' ;
+            cardAry.forEach((obj) => {
+                console.log(`img = ${obj.img} , heading = ${obj.heading}`);
+                divTag += `<div class="tour">`
+                divTag += `<a href='#'>`
+                divTag += `<img src='../img/img/${obj.img}'>`;
+                divTag += `<h3>${obj.heading}</h3>`;
+                divTag += `<button type="button">${obj.btn}</button>`
+                divTag += '</a>'
+                divTag += `</div>`
+            });
+            console.log(`debug >>> divTag : ${divTag}`)
+            node.innerHTML = divTag;
+        </script>
+    </body>
+
+</html>

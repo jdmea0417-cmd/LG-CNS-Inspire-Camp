@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="display">
+        
+    </div>
+    <script>
+        /*
+        배열 [] 객체가 소유하고 있는 함수(filter, map etc.....)
+        반복구문
+        -특정 데이터를 반복할 때 사용하는 문법
+        -forEach~, for ~ in, for ~ of
+        */
+
+        console.log(`debug >>>> loop`);
+        let ary = [10, 20, 30, 40, 50];
+
+        console.log(`debug >>>> array loop`);
+        // for(let idx = 0; idx < ary.length ; idx++) {
+        //     console.log(`idx = ${ary[idx]}`);
+        // }
+        ary.forEach((value, idx) => {
+            console.log(`idx = ${idx} , value = ${value}`);
+        });
+
+        console.log(`debug >>>> array for ~ in `);
+        // for ~ in : index 를 순회하면서 반환해주는 구문
+        for(let key in ary){
+            console.log(`idx = ${key}, value = ${ary[key]}`);
+        }
+
+        // es6 : Object literal(속성과 속성의 값이 동일할 때 축약하는 문법)
+        let img = 'xxxxx.png';
+        let heading = 'xxxxx';
+        // if let image = 'xxxxx.png', img : image
+        let cardAry = [
+            {
+                img,
+                heading
+            },
+            {
+                img,
+                heading
+            }
+        ];
+
+        let node = document.querySelector('#display');
+        //node.innerHTML = `<div align = 'center' >heading</div/`;
+        let divTag = '' ;
+        cardAry.forEach((obj) => {
+            console.log(`img = ${obj.img} , heading = ${obj.heading}`);
+            divTag += `<div><img src='${obj.img}>'`;
+            divTag += `<h2>${obj.heading}</h2></div>`;
+        });
+        console.log(`debug >>> divTag : ${divTag}`)
+        node.innerHTML = divTag;
+       
+    </script>
+
+</body>
+</html>
