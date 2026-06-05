@@ -1,7 +1,6 @@
 package features.user.domain;
 
 public class UserResponseDTO {
-<<<<<<< HEAD
     private int status;
     private String message;
 
@@ -33,7 +32,5 @@ public class UserResponseDTO {
     public String toString() {
         return "UserResponseDTO [status=" + status + ", message=" + message + "]";
     }
-=======
->>>>>>> main
     
 }
