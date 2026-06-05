@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        
+
+        <script>
+
+            // ﻿변수 : 데이터를 담는 그릇
+            // 변수 선언시 대소문자를 구별
+            // 변수의 타입 존재하지 않음
+            // 기본타입(숫자, 문자(열), 논리, null, undefined)
+            // 참조타입(Object, Function, Array etc....)
+            // 제어구문, 반복구문
+            // 함수(function)
+            // es6(let, const)
+            let message = 10;
+            message = "jslim"
+            console.log(">>>> debug message", message);
+            console.log(">>>> debug message type", typeof message);
+            console.log(">>>> debug message ==", message =="10");
+            console.log(">>>> debug message ===", message === "10");
+
+            console.log(">>>> debug message ", message)
+            const name = "jslim";
+
+            let obj = {
+                name : "jslim",
+                age : 20,
+                major : 'cs'
+            };
+            console.log(">>>> debug obj", obj);
+            console.log(">>>> debug obj type", typeof obj);
+            console.log(">>>> debug obj property", obj.major);
+            console.log(">>>> debug obj property", obj['major']);
+
+            let ary = [
+                {name : 'inspire'},
+                {name : 'lgcns'},
+                {name : 'am'},
+                {name : 'camp5th'}
+            ];
+            console.log(">>>> debug ary", ary);
+            console.log(">>>> debug ary type", typeof ary);
+            console.log(">>>> debug ary index 3 ", ary[3].name);
+
+            //es6 : template string `${var}`
+            console.log(`>>>> debug ary index 3 - ${ary[3].name}`);
+
+            /*
+            - 함수(function) vs 메서드(method) vs lambda expression(arrow function)
+            - ? 특정 기능을 수행하기 위한 코드 블럭
+            */
+            let result = test(10, 10);
+            function test(x = 20, y = 20) {
+                return x + y;
+            }
+            console.log(`result = ${result}`);
+
+            let btnHandler = function() {
+                console.log(`익명의 함수 호출됨`);
+            };
+            console.log(">>>> debug function type", typeof btnHandler);
+            btnHandler();
+
+            // es6 : arrowfunction 표준
+            let arrowfunc = () => {
+                console.log(`arrow function 호출됨`);
+            }
+            arrowfunc();
+
+            //lambda expression : 1회성으로 많이 씀
+            //block {} 안에서는 반드시 return 사용
+            const add = (a, b) => a + b;
+            console.log(`lambda expression call ${add(1,2)}`)
+        </script>
+
+    </body>
+</html>

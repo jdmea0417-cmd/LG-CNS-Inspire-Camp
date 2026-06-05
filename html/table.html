@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- <link href="../css/table.css" rel="stylesheet"> -->
+        <!-- Latest compiled and minified CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+
+    <body>
+        <h2> 상품 구성</h2>
+
+        <table id="table" class="table table-hover">
+            <caption>선물용 또는 가정용 상품 구성</caption>
+            <!-- <colgroup>
+                <col style="background-color: aquamarine;"/>
+                <col/>
+                <col style="width: 150px"/>
+                <col style="width: 150px"/>
+            </colgroup> -->
+
+            <thead>
+                <th>용도</th>
+                <th>중량</th>
+                <th>갯수</th>
+                <th>가격</th>
+            </thead>
+
+            <tbody id="tbody">
+                <tr>
+                    <td rowspan="2">가족용</td>
+                    <td>3kg</td>
+                    <td>11~16과</td>
+                    <td>35,000원</td>
+                </tr>
+                <tr>
+                    <td>3kg</td>
+                    <td>11~16과</td>
+                    <td>35,000원</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">선물용</td>
+                    <td>3kg</td>
+                    <td>11~16과</td>
+                    <td>35,000원</td>
+                </tr>
+                <tr>
+                    <td>3kg</td>
+                    <td>11~16과</td>
+                    <td>35,000원</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="4"><center>상품요약</center></td>
+                </tr>
+            </tfoot>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+h2 {
+    text-align: center;
+    color: brown;
+    /* 
+    px : 고정(기본 : 16px)
+    em : 상대(16px * 1.5)
+    */
+    font-size: 24px;
+}
+
+.box > .accent {
+    color: red;
+}
+
+.box {
+    border: 1px solid red;
+    border-radius: 11px;
+    font-size:1.2em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 2em;
+}
+/* ^를 통해 c로 시작할 시 적용 */
+h2[text="customer"] {
+    color : blue;
+}
+
+.text-small {
+    font-size:0.7em;
+}
