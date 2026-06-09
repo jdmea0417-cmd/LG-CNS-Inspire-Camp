@@ -33,7 +33,7 @@ public class OopApp {
         // 타입의 다형성
         // PersonDTO[] perAry = new PersonDTO[10];
         // System.out.println(perAry);
-        StudentDTO student = StudentDTO.builder()
+        PersonDTO student = StudentDTO.builder()
                 .name("박도연")
                 .age(20)
                 .address("대전")
@@ -48,6 +48,13 @@ public class OopApp {
                 .age(20)
                 .address("서울")
                 .subject("자바")
+                .build();
+
+        PersonDTO manager = ManagerDTO.builder()
+                .name("김혜림")
+                .age(20)
+                .address("서울")
+                .dept("교육운영팀")
                 .build();
 
         // System.out.println(((TeacherDTO) teacher).teacherInfo());
@@ -86,12 +93,6 @@ public class OopApp {
          * - 배열에 담고
          * - 정보를 출력하는 코드를 구현
          */
-        PersonDTO manager = ManagerDTO.builder()
-                .name("김혜림")
-                .age(20)
-                .address("서울")
-                .dept("교육운영팀")
-                .build();
 
         // perAry[2] = manager;
 
@@ -117,7 +118,6 @@ public class OopApp {
         // 매개변수의 다형성
 
         OopService service = new OopService();
-
         service.setAry(student);
         service.setAry(teacher);
     }
