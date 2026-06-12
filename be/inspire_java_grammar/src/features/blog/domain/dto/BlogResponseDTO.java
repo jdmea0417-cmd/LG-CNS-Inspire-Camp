@@ -1,5 +1,7 @@
 package features.blog.domain.dto;
 
+import java.io.Serializable;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -7,7 +9,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-public class BlogResponseDTO {
+public class BlogResponseDTO implements Serializable{
     // 해당 블로그를 식별할 수 있는 기본키(primary key)
     private Integer id;
     private String title, content, email;
