@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import features.blog.domain.dto.BlogResponseDTO;
+import features.blog.facade.FrontController;
 import features.blog.repository.BlogDao;
 
 public class BlogReactView {
@@ -21,10 +22,13 @@ public class BlogReactView {
      */
     // landing page 화면구성
     private Scanner scan;
-    private int insert = 0;
+    private int insert;
+    private FrontController front;
 
     public BlogReactView() {
         scan = new Scanner(System.in);
+        insert = 0;
+        front = new FrontController();
     }
 
     public void mainMenu() {
@@ -39,10 +43,10 @@ public class BlogReactView {
             System.out.println("99. 프로그램 종료");
             System.out.print("\n메뉴 선택 : ");
             try {
-                insert = scan.nextInt();
+                insert = Integer.parseInt(scan.nextLine());
             } catch (Exception e) {
+                System.out.println("에러 발생");
                 e.printStackTrace();
-                scan.nextLine();
             }
             switch (insert) {
                 case 1:
@@ -64,8 +68,15 @@ public class BlogReactView {
                     search();
                     break;
                 case 99:
-                    System.out.println("시스템을 종료합니다.");
-                    System.exit(1);
+                    System.out.print(">>>> 작업된 내용을 저장하고 종료하시겠습니까?(y/n) : ");
+                    String yn = scan.nextLine();
+                    if (yn.equalsIgnoreCase("y")) {
+                        String endPoint = "save.inspire";
+                        front.saveToFile(endPoint);
+                        System.exit(1);
+                    } else {
+                        System.exit(1);
+                    }
                 default:
                     break;
 
@@ -76,9 +87,9 @@ public class BlogReactView {
     // 서버통신을 통해서 전달 받은 데이터를 출력하는 역할
     public void list() {
         System.out.println("\n리스트 호출");
-        
-        BlogDao dao = new BlogDao();
-        List<BlogResponseDTO> list = dao.selectRow();
+        String endPoint = "list.inspire";
+
+        List<BlogResponseDTO> list = front.list(endPoint);
         list.stream()
                 .forEach(System.out::println);
     }
@@ -90,7 +101,21 @@ public class BlogReactView {
 
     // 블로그 입력을 담당하는 역할
     public void insert() {
-        System.out.println("\n입력 호출");
+        System.out.println();
+        System.out.println(">>>> 블로그 입력 폼<<<<");
+        System.out.println();
+
+        String endPoint = "insert.inspire";
+        System.out.print("제목 : ");
+        String title = scan.nextLine();
+        System.out.print("내용 : ");
+        String content = scan.nextLine();
+        System.out.print("이메일 : ");
+        String email = scan.nextLine();
+
+        int isFlag = front.insert(endPoint, title, content, email);
+        System.out.println((isFlag == 1) ? "입력성공" : "입력실패");
+
     }
 
     // 블로그 삭제를 담당하는 역할
