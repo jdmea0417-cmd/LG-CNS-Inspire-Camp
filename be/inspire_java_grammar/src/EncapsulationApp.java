@@ -1,5 +1,3 @@
-import features.oop.encapsulation.LgTV;
-import features.oop.encapsulation.SamsungTV;
 import features.oop.encapsulation.TV;
 import features.oop.factory.BeanFactory;
 

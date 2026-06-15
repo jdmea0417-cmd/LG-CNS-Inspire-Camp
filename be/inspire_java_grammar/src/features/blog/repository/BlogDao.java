@@ -1,13 +1,8 @@
 package features.blog.repository;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import features.blog.domain.dto.BlogRequestDTO;
 import features.blog.domain.dto.BlogResponseDTO;
@@ -44,6 +39,13 @@ public class BlogDao {
                         .email("lim").viewCnt(50).build()));
     }
 
+    public void setBlogs(List<BlogResponseDTO> blogs) {
+        this.blogs = blogs;
+    }
+    public List<BlogResponseDTO> getBlogs() {
+        return this.blogs;
+    }
+
     // R(전체 검색)
     // 추후 데이터베이스와 통신을 통해서 전달받은 데이터를 xxxxDTO 객체로 만들고 List 담는 역할
     public List<BlogResponseDTO> selectRow() {
@@ -68,27 +70,24 @@ public class BlogDao {
         return isFlag ? 1 : 0;
     }
 
-    // File DB - Save
-    // blogs 객체가 담고 있는 모든 요소를 Serializable 이용해서 파일에 저장
-    public void SaveRow() {
-        System.out.println(">>>> blog dao saveRow");
-        String path = "./blog.txt";
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(path)))) {
-            oos.writeObject(blogs);
-            System.out.println(">>>> success ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    // D(삭제)
+    public int deleteRow(int id) {
+        System.out.println(">>>> blog dao deleteRow");
+        // blogs = blogs.stream()
+        //     .filter(blog -> blog.getId() != id)
+        //     .toList(); //-> front 최적화 코드
+        boolean isFlag = blogs.removeIf(blog -> blog.getId() == id);
+        return (isFlag) ? 1 : 0;
     }
-    // File DB - Get
-    public void loadRow() {
-        System.out.println(">>>> blog dao loadRow");
-        String path = "./blog.txt";
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(path)))) {
-            blogs = (List<BlogResponseDTO>)ois.readObject();
-            System.out.println(">>>> success ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    public Optional<BlogResponseDTO> readRow(int id) {
+        System.out.println(">>>> blog dao readRow");
+        // findFirst() : 순서가 보장되는 첫번째
+        // findAny() : 순서가 보장되지 않는(병렬처리) 가장 빠른 결과
+        Optional<BlogResponseDTO> result = 
+            blogs.stream()
+                .filter( blog -> blog.getId() == id )
+                .findAny();
+        return result;
     }
 }

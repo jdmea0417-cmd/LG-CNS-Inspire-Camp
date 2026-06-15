@@ -4,7 +4,9 @@ import java.util.List;
 
 import features.blog.ctrl.BlogInsertController;
 import features.blog.ctrl.BlogListController;
-import features.blog.ctrl.BlogSaveController;
+import features.blog.ctrl.BlogReadController;
+import features.blog.ctrl.BlogDeleteController;
+import features.blog.ctrl.BlogFileController;
 import features.blog.domain.dto.BlogRequestDTO;
 import features.blog.domain.dto.BlogResponseDTO;
 import features.blog.factory.BlogBeanFactory;
@@ -41,9 +43,26 @@ public class FrontController {
         return ctrl.insert(request);
     }
 
-    public void saveToFile(String endPoint) {
-        System.out.println(">>>> front controller endPoint : "+endPoint);
-        BlogSaveController ctrl = (BlogSaveController)factory.getBean(endPoint);
-        ctrl.save();
+    public void FileSaveLoad(String endPoint, String name) {
+        System.out.println(">>>> front controller endPoint : " + endPoint);
+        if (name.equals("save")) {
+            BlogFileController ctrl = (BlogFileController) factory.getBean(endPoint);
+            ctrl.save();
+        } else {
+            BlogFileController ctrl = (BlogFileController) factory.getBean(endPoint);
+            ctrl.load();
+        }
+    }
+
+    public int delete(String endPoint, int id) {
+        BlogDeleteController ctrl = (BlogDeleteController)factory.getBean(endPoint);
+        return ctrl.delete(id);
+    }
+
+    public BlogResponseDTO read(String endPoint, int id) {
+        System.out.println(">>>> front controller endPoint : " + endPoint);
+        BlogReadController read = (BlogReadController)factory.getBean(endPoint);
+
+        return read.read(id);
     }
 }

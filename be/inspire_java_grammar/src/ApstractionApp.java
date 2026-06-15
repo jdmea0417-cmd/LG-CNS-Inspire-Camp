@@ -1,5 +1,3 @@
-import features.oop.abstraction.AbstractClass;
-import features.oop.abstraction.AbstractInterface;
 import features.oop.abstraction.Animal;
 import features.oop.abstraction.Bird;
 import features.oop.abstraction.Fly;

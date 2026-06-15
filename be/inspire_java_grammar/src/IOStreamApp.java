@@ -33,23 +33,23 @@ public class IOStreamApp {
         // e.printStackTrace();
         // }
 
-        // char stream
+        // char stream;
         // System.out.println(">>>> io stream 이용한 데이터 입출력 : ");
         // BufferedReader br = new BufferedReader(
-        // new InputStreamReader(System.in));
+        //         new InputStreamReader(System.in));
         // String input = null;
         // try {
-        // input = br.readLine();
+        //     input = br.readLine();
         // } catch (Exception e) {
-        // e.printStackTrace();
+        //     e.printStackTrace();
         // } finally {
-        // try {
-        // if(br != null) {
-        // br.close();
-        // }
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
+        //     try {
+        //         if (br != null) {
+        //             br.close();
+        //         }
+        //     } catch (Exception e) {
+        //         e.printStackTrace();
+        //     }
         // }
         // System.out.println(input);
 
@@ -67,10 +67,10 @@ public class IOStreamApp {
         // e.printStackTrace();
         // } finally {
         // try {
-        // if(bw != null) {
+        // if (bw != null) {
         // bw.close();
         // }
-        // } catch(Exception e) {
+        // } catch (Exception e) {
         // e.printStackTrace();
         // }
         // }
@@ -122,9 +122,9 @@ public class IOStreamApp {
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(path)))) {
-            List<BlogResponseDTO> blogs_r = (List<BlogResponseDTO>)ois.readObject();
+            List<BlogResponseDTO> blogs_r = (List<BlogResponseDTO>) ois.readObject();
             blogs_r.stream()
-                .forEach(System.out::println);
+                    .forEach(System.out::println);
         } catch (Exception e) {
             e.printStackTrace();
         }

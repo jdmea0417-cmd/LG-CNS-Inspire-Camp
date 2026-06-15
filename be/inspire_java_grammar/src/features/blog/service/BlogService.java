@@ -9,4 +9,7 @@ public interface BlogService {
     public List<BlogResponseDTO> list();
     public int insert(BlogRequestDTO request);
     public void save();
+    public void load();
+    public int delete(int id);
+    public BlogResponseDTO read(int id);
 }

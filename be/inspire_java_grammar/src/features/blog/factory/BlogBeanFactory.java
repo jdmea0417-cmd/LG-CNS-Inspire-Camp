@@ -5,7 +5,9 @@ import java.util.Map;
 
 import features.blog.ctrl.BlogInsertController;
 import features.blog.ctrl.BlogListController;
-import features.blog.ctrl.BlogSaveController;
+import features.blog.ctrl.BlogReadController;
+import features.blog.ctrl.BlogDeleteController;
+import features.blog.ctrl.BlogFileController;
 import features.blog.service.BlogService;
 import features.blog.service.BlogServiceImpl;
 
@@ -26,7 +28,9 @@ public class BlogBeanFactory {
         // 추후 추가되는 각각의 기능을 구현하는 xxxxController 등록
         map.put("list.inspire", new BlogListController(service));
         map.put("insert.inspire", new BlogInsertController(service));
-        map.put("save.inspire", new BlogSaveController(service));
+        map.put("file.inspire", new BlogFileController(service));
+        map.put("delete.inspire", new BlogDeleteController(service));
+        map.put("read.inspire", new BlogReadController(service));
     }
 
     public static BlogBeanFactory getInstance() {
