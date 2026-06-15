@@ -1,4 +1,3 @@
-import features.user.dao.UserDao;
 import features.user.domain.UserRequestDTO;
 import features.user.domain.UserResponseDTO;
 import features.user.service.UserService;
