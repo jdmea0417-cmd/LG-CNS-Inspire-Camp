@@ -14,6 +14,9 @@ FROM 		table-name ;
 컬럼명은 대소문자를 구별하지 않는다.
 키워드는 대문자로 작성하는게 원칙
 */
+SELECT 	*
+FROM 		employee;
+
 SELECT 	emp_id,
 			emp_name
 FROM		employee;
@@ -55,7 +58,7 @@ FROM		department;
 
 -- Q) 90번 부서의 모든 사원정보를 검색한다면?
 -- where (제한 행)
-
+-- 연산자 : 비교(LIKE, NOT LIKE), 산술, 논리(AND, OR, NOT)
 SELECT	*
 FROM		employee
 WHERE 	DEPT_ID = '90';
@@ -63,3 +66,314 @@ WHERE 	DEPT_ID = '90';
 SELECT	*
 FROM		employee
 WHERE 	JOB_ID = 'j2';
+
+-- 사원테이블에서 부서번호가 90번이거나 급여가 4000000이상인 사원의 모든 정보를 검색한다면?
+SELECT 	*
+FROM 		employee
+WHERE		DEPT_ID ='90' && SALARY >= 4000000;
+
+-- CONCAT() : 연결연산자
+SELECT 	CONCAT('임정섭', '강사님은','??');
+
+SELECT 	CONCAT(EMP_NAME, '님의 급여는 ', SALARY, '원 입니다.') AS `급여정보(원)`
+FROM 		employee;
+
+-- 급여가 3500000 이상이고 5500000 이하인 사원의 이름, 직급, 급여를 검색한다면?
+-- BETWEEN ~ AND
+SELECT 	emp_name, JOB_ID, SALARY
+FROM 		employee
+WHERE 	SALARY BETWEEN 3500000 AND 5500000;
+
+-- LIKE 패턴검색연산자(%,_)
+-- % : 모든 문자를 매칭
+-- _ : 하나의 문자를 매칭
+
+-- Q) 사원테이블에서 김씨 성을 가진 사원의 모든 정보를 검색한다면?
+SELECT 	*
+FROM 		employee;
+
+SELECT 	*
+FROM 		employee
+WHERE 	EMP_NAME LIKE '김%' ;
+
+-- Q) 사원테이블에서 부서배치를 받지않은 사원의 모든 정보를 검색한다면?
+SELECT 	*
+FROM 		employee
+WHERE 	DEPT_ID IS NULL;
+
+-- Q) 사원테이블에서 부서번호가 60 이거나 90번인  사원의 모든 정보를 검색한다면?
+-- 이거나(OR) == IN()
+SELECT	*
+FROM		employee
+WHERE 	DEPT_ID IN('60', '90');
+
+SELECT 	*
+FROM 		tb_student;
+-- 1)
+SELECT DEPARTMENT_NAME AS `학과 명`, CATEGORY AS '계열'
+FROM tb_department;
+
+-- 2)
+SELECT CONCAT(department_NAME, '의', ' 정원은 ', CAPACITY, '입니다.')
+FROM tb_department ;
+
+-- 3)
+-- SUBSTRING(문자열, 시작위치, 길이)
+SELECT S.STUDENT_NAME
+FROM TB_STUDENT S
+JOIN tb_department D ON S.DEPARTMENT_NO = D.DEPARTMENT_NO
+WHERE D.DEPARTMENT_NAME = '국어국문학과'
+AND SUBSTRING(S.STUDENT_SSN, 8, 1) IN ('2', '4')
+AND S.ABSENCE_YN = 'Y';
+
+SELECT	S.STUDENT_NAME, 
+			S.STUDENT_SSN,
+			S.ABSENCE_YN
+FROM		tb_student S 
+WHERE		S.DEPARTMENT_NO = '001' 
+AND		S.ABSENCE_YN = 'Y'
+AND 		S.STUDENT_SSN LIKE '_______2%';
+
+-- 4)
+SELECT STUDENT_NAME
+FROM tb_student
+WHERE STUDENT_NO IN ('A513079', 'A513090', 'A513091', 'A513110', 'A513119');
+
+-- 5)
+SELECT department_name, category
+FROM tb_department
+WHERE CAPACITY BETWEEN 20 AND 30;
+
+-- 6)
+SELECT PROFESSOR_NAME
+FROM tb_proFessor
+WHERE DEPARTMENT_NO IS NULL;
+
+-- 7)
+SELECT *
+FROM TB_STUDENT
+WHERE DEPARTMENT_NO IS NULL;
+
+-- 8)
+SELECT CLASS_NO
+FROM TB_CLASS
+WHERE PREATTENDING_CLASS_NO IS NOT NULL;
+
+-- 9)
+SELECT DISTINCT CATEGORY
+FROM tb_department;
+-- ORDER BY CATEGORY;
+
+-- 10)
+SELECT STUDENT_NO, STUDENT_NAME, STUDENT_SSN
+FROM TB_STUDENT
+WHERE YEAR(ENTRANCE_DATE) = 2002
+AND STUDENT_ADDRESS LIKE '%전주%'
+AND ABSENCE_YN = 'N';
+
+
+/*
+내장함수란?
+함수의 유형
+- 단일행 함수 : 문자, 날짜, 숫자, 기타변환함수~
+- 복수행 함수 : MIN, MAX, SUM, COUNT, AVG ~
+
+사용위치
+- SELECT, WHERE, GROUP BY, HAVING, ORDER BY
+*/
+
+-- 문자열 함수
+-- LENGTH, CONCAT, SUBSTRING, LEFT, RIGHT, INSTR, REPLACE, UPPER, LOWER, TRIM, PAD ETC...
+SELECT 	LENGTH('임정섭'),
+			LENGTH('JSLIM'),
+			CHAR_LENGTH('임정섭');
+			
+SELECT	EMP_NAME,
+			LENGTH(EMP_NAME)
+FROM		employee;
+
+SELECT	UPPER('hello'), LOWER('HELLO');
+
+-- TRIM(), LTRIM(), RTRIM()
+SELECT	LENGTH(' HELLO '), LENGTH(TRIM(' HELLO ')),
+			LENGTH(LTRIM(' HELLO ')), LENGTH(RTRIM(' HELLO '));
+			
+-- 문자열을 채우는 패딩 : LPAD(STR, LENGTH, PAD_STR), RPAD()
+SELECT 	LPAD('5', 3, '0'), RPAD('5', 3, 'A');
+
+SELECT	EMAIL,
+			LENGTH(EMAIL),
+			LPAD(EMAIL, 20, '*'),
+			LENGTH(LPAD(EMAIL, 20, '*'))
+FROM employee;
+
+-- SUBSTRING() : 부분문자열을 반환하는 함수
+SELECT	SUBSTRING('ABCDEFG', 2, 4),
+			LEFT('ABCDEFG', 2),
+			RIGHT('ABCDEFG', 2);
+			
+SELECT	SUBSTRING('THIS IS INSPIRE CAMP' FROM 9 FOR 7),
+			SUBSTRING('THIS IS INSPIRE CAMP', 9, 7),
+			SUBSTRING_INDEX('www.lgcns.com', '.', -1);
+			
+-- INSTR() : 부분문자열의 인덱스를 반환하는 함수
+SELECT	INSTR('LGCNS CAMP', 'CAMP');
+
+SELECT	*
+FROM employee;
+-- Q) .앞의 문자 'C' 인덱스 번지를 검색
+-- Q) 메일 아이디만 추출(substring_index())
+SELECT	EMAIL,
+			INSTR(EMAIL, 'c.'),
+			SUBSTRING(EMAIL, 1, INSTR(EMAIL, '@')-1),
+			SUBSTRING_INDEX(EMAIL, '@', 1)
+FROM 		employee;
+
+-- 문자열 반복
+SELECT 	REPEAT('LGCNS',3);
+
+-- 문자열 치환
+SELECT 	REPLACE('오늘은 즐거운  화요일', '즐거운', '재미있는');
+
+-- Q) 입사년도만 추출
+-- Q) 주민번호 앞 6자리만 추출
+-- Q) 입사일을 ****년 **월 **일 형식으로 추출
+
+SELECT 	CONCAT(SUBSTRING_INDEX(HIRE_DATE, '-', 1), '년') AS `입사년도`,
+			SUBSTRING_INDEX(EMP_NO, '-', 1) AS `생년월일`,
+			CONCAT(YEAR(HIRE_DATE), '년 ', LPAD(MONTH(HIRE_DATE), 2, 0), '월 ', LPAD(DAY(HIRE_DATE), 2, 0), '일') AS `입사일`,
+			DATE_FORMAT(HIRE_DATE, '%Y년 %m월 %d일') AS `입사일`
+FROM 		employee;
+
+-- 숫자함수
+SELECT	ABS(-100),
+			CEILING(4.7),
+			CEILING(4.1),
+			FLOOR(4.7),
+			FLOOR(4.1),
+			ROUND(4.5),
+			ROUND(4.412345, 2),
+			TRUNCATE(123.45678, 2),
+			TRUNCATE(123.45678, -2),
+			((RAND() * 100 ) +1),
+			GREATEST(10, 20, 30),
+			LEAST(10, 20, 30);
+			
+-- 날짜함수
+-- ADDDATE(), DATEDIFF()
+SELECT	NOW(),
+			SYSDATE(),
+			CURDATE(),
+			CURTIME();
+			
+SELECT	HIRE_DATE,
+			CAST(HIRE_DATE + 1 AS DATE)
+FROM		employee;
+
+-- Q) 입사일을 기준으로 근속년수가 30년이 되는 일자를 조회하고 싶다면?
+SELECT	HIRE_DATE,
+			ADDDATE(HIRE_DATE, INTERVAL 30 YEAR),
+			ADDDATE(CURDATE(), INTERVAL 2 MONTH),
+			ADDDATE(CURDATE(), INTERVAL 2 DAY)
+FROM 		employee;
+
+-- Q) 오늘 날짜를 기준으로 근속년수가 30년 이상인 사원의 모든 정보를 검색한다면?
+SELECT 	*, 
+			FLOOR(DATEDIFF(CURDATE(), HIRE_DATE)/365) AS '근속년수'
+FROM 		employee
+-- WHERE ADDDATE(HIRE_DATE, INTERVAL 30 YEAR) <= CURDATE();
+WHERE 	DATEDIFF(CURDATE(), HIRE_DATE) >= 30*365;
+
+
+-- D DEFINITION L
+CREATE TABLE COUPON_TBL(
+	CREATE_DATE DATE,
+	END_DATE DATE
+);
+
+INSERT INTO coupon_tbl VALUES( NOW() , ADDDATE(NOW(), INTERVAL 7 DAY));
+
+SELECT	*
+FROM 		coupon_tbl;
+
+-- SUBDATE(), SUBTIME()
+SELECT 	SUBDATE(NOW(), INTERVAL 30 DAY),
+			SUBTIME(NOW(), '01:30:00');
+			
+-- YEAR(), MONTH(), DAY(), HOUR(), MINUTE(), SECOND()
+SELECT	HIRE_DATE,
+			SUBSTRING(HIRE_DATE, 1, 4),
+			CAST(YEAR(HIRE_DATE) AS CHAR),
+			CAST(MONTH(HIRE_DATE) AS CHAR),
+			CAST(DAY(HIRE_DATE) AS CHAR),
+			CAST(HOUR(HIRE_DATE) AS CHAR),
+			CAST(MINUTE(HIRE_DATE) AS CHAR),
+			CAST(SECOND(HIRE_DATE) AS CHAR)
+FROM 		employee;
+
+-- WEEKDAY() : 날짜의 요일을 정수로 변환(0 : 월요일)
+-- DAYOFWEEK() : 요일을 숫자로 변환(1 : 일요일)
+-- Q) 2020년 크리스마스는 무슨 요일인가요?
+SELECT	WEEKDAY('2020-12-25'),
+			DAYOFWEEK('2020-12-25'),
+			DAYNAME('2020-12-25');
+
+
+-- 기타함수
+-- 흐름제어 함수(IF, IFNULL, NULLIF, CASE ~ WHEN ~ THEN ~ END)
+
+SELECT	IF(100 > 200, '참', '거짓');
+SELECT	CASE	10
+				WHEN 1 THEN '1'
+				WHEN 10 THEN '10'
+				ELSE '내가 원하는 값이 아님'
+			END AS `구분`;
+			
+SELECT 	*
+FROM 		employee;
+-- Q) 부서번호가 50번인 사원의 이름, 주민번호, 성별을 검색한다면?
+SELECT	EMP_NAME,
+			EMP_NO,
+			IF( SUBSTRING(EMP_NO, 8, 1) IN (2,4) , '여자', '남자') AS `GENDER`
+FROM		EMPLOYEE
+WHERE		DEPT_ID = '50' ;
+
+-- BAD CASE CASE - WHEN - THEN의 경우 정확한 값 비교만 가능
+SELECT 	EMP_NAME, 
+			EMP_NO, 
+			CASE SUBSTRING(EMP_NO, INSTR(EMP_NO, '-')+1, 1)
+				WHEN 1 OR 3 THEN '남'
+				WHEN 2 OR 4 THEN '여'
+				ELSE 'ERROR'
+			END AS '성별'
+FROM		employee
+WHERE DEPT_ID = '50';
+-- 수정
+SELECT 	EMP_NAME, 
+			EMP_NO, 
+			CASE 	WHEN SUBSTRING(EMP_NO, INSTR(EMP_NO, '-')+1, 1) IN ('1', '3') THEN '남'
+					WHEN SUBSTRING(EMP_NO, INSTR(EMP_NO, '-')+1, 1) IN ('2', '4') THEN '여'
+				ELSE 'ERROR'
+			END AS '성별'
+FROM		employee
+WHERE DEPT_ID = '50';
+
+-- Q) 사원테이블의 직급(JOB_ID)이 J4인 사원 사번, 이름, 사수번호 검색한다면?
+-- 추가) 사수번호가 없는 사원은 MGR_ID 컬럼에 '관리자'로 출력
+
+SELECT	EMP_ID,
+			EMP_NAME,
+			IF(MGR_ID = '', '관리자', MGR_ID)
+FROM		employee
+WHERE		JOB_ID = 'J4';
+
+
+-- Q) 급여등급을 나눠보고 싶다
+-- 300 이하면 초급, 400 이하면 중급, 초과하면 고급
+-- 사원번호, 이름, 급여, 급여등급 검색하고 싶다면?
+
+SELECT	EMP_ID,
+			EMP_NAME,
+			SALARY,
+			IF(SALARY <= 3000000, '초급', IF(SALARY <=4000000, '중급', '고급')) AS '급여등급'
+FROM		employee;
