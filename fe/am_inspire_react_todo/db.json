@@ -1,0 +1,39 @@
+{
+  "blogs": [
+    {
+      "title": "가나다",
+      "content": "라마바사",
+      "email": "asdf@qwer.com",
+      "id": 1
+    }
+  ],
+  "comments": [
+    {
+      "comment": "안녕하세요",
+      "email": "lgcns@qwer.com",
+      "blogId": 1,
+      "id": 1
+    },
+    {
+      "comment": "테스트",
+      "email": "asdf@qwer.com",
+      "blogId": 1,
+      "id": 2
+    },
+    {
+      "comment": "qwerqwer",
+      "email": "asdf@qwer.com",
+      "blogId": 1,
+      "id": 3
+    }
+  ],
+  "signUp": [],
+  "users": [
+    {
+      "name": "가나다",
+      "email": "asdf@qwer.com",
+      "password": "1234",
+      "id": 1
+    }
+  ]
+}
