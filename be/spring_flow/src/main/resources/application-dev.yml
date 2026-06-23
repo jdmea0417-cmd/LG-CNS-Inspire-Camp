@@ -1,0 +1,19 @@
+server:
+  port: 8000
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  # mariadb setthing
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/inspire
+    username: root
+    password: 5242
+
+# mybatis setting
+mybatis:
+  mapper-locations: /mappers/**/*Mapper.xml
+  config-location: classpath:/mappers/config/mybatis-config.xml
