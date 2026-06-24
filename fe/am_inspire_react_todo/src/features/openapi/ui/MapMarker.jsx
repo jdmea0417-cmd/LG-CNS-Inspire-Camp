@@ -9,7 +9,7 @@ const MapMarker = ({ lat, lon }) => {
         // 카카오 지도 스크립트가 이미 있는지 확인
         if (!window.kakao || !window.kakao.maps) {
             const script = document.createElement('script');
-            let apiKey = `REDACTED_KAKAO_API_KEY`;
+            let apiKey = `a9af16e7d09fdeb8e2321820a96dca5f`;
             script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
             script.async = true;
             document.head.appendChild(script);
