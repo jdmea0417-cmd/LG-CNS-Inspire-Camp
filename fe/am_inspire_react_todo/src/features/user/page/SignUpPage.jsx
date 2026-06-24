@@ -106,7 +106,18 @@ const SignUpPage = () => {
         - 가입된 계정으로 로그인 시도했을 때 계정이 존재하면
         - BlogMainPage 이동
         */
-        await api.post('/users', data)
+        // json-server를 활용한 통신
+        // await api.post('/users', data)
+        //     .then(response => {
+        //         console.log('debug >>>> post response');
+        //         console.log(response)
+        //         moveUrl('/signin');
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
+        // spring boot backend 서버를 활용한 통신
+        await api.post('/user/signUp', data)
             .then(response => {
                 console.log('debug >>>> post response');
                 console.log(response)
