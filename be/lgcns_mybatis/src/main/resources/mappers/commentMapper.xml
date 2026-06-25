@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inspire.lgcns_mybatis.features.comment.repository.CommentMapper">
+
+  <!-- selectRow --> 
+
+  <select id="selectRow" parameterType="java.lang.Integer" resultType="CommentResponseDTO">
+    SELECT ID, COMMENT, EMAIL, BLOGID
+    FROM  BLOG_COMMENT_TBL
+    WHERE BLOGID = #{blogId}
+    ORDER BY ID ASC;
+  </select>
+
+  <!-- insertRow --> 
+
+  <insert id="insertRow" parameterType="CommentResponseDTO">
+    INSERT INTO BLOG_COMMENT_TBL
+    VALUES(NEXTVAL(COMMENT_SEQ), #{comment}, #{email}, #{blogId})
+  </insert>
+
+</mapper>
+

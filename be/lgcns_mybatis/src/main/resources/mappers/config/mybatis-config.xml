@@ -10,5 +10,9 @@
       type="com.inspire.lgcns_mybatis.features.user.domain.dto.UserResponseDTO" /> -->
     <!-- user package -->
     <package name="com.inspire.lgcns_mybatis.features.user.domain.dto" />
+    <!-- blog package -->
+    <package name="com.inspire.lgcns_mybatis.features.blog.domain.dto" />
+
+    <package name="com.inspire.lgcns_mybatis.features.comment.domain.dto" />
   </typeAliases>
 </configuration>

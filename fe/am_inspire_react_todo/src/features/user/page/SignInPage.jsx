@@ -175,11 +175,11 @@ const SignInPage = () => {
                 // token - Authorization(인증)
                 // response.headers.get('Authorization')
                 // 이러한 인증정보를 요청시마다 헤더에 포함해서 전달을 해야 또다시 인증을 요청하지 않는다.
-              const user = response.headers.get('Authorization');
-              user = response.data;
+              const token = response.headers.get('Authorization');
+              const user = response.data;
               localStorage.setItem("token", user.email);
 
-              //moveUrl('/blog/index');
+              moveUrl('/blog/index');
             }
         })
         .catch (err => {

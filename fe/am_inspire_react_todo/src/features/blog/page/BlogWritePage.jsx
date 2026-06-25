@@ -47,7 +47,18 @@ const BlogWritePage = () => {
         //정상적으로 입력완료된 status === 201 이면 페이지 전환(blog/index)
         //만약, status 201 아니면 UI 부분에 메시지를 전달할 수 있는 태그를 만들어서 에러메시지 출력
         console.log(`debug >>>> save button click -> data : ${title}, ${content}, ${email}`);
-        await api.post('/blogs', {title, content, email})
+        // await api.post('/blogs', {title, content, email})
+        //     .then( response => {
+        //         console.log(`debug >>>> post response`)
+        //         if( response.status === 201)
+        //             moveUrl('/blog/index');
+        //     })
+        //     .catch( err => {
+        //         console.log(`debug >>>> post err`, err)
+        //     })
+        
+        // spring-server version
+        await api.post('/blog/write', {title, content, email})
             .then( response => {
                 console.log(`debug >>>> post response`)
                 if( response.status === 201)
