@@ -48,7 +48,7 @@ const BlogMainPage = () => {
     const [ary, setAry] = useState([]);
     const loadData = async () => {
         // json-server와 통신(get)을 통해서 응답된 데이터를 ary 변수에 바인딩하는 구현
-        await api.get('/blogs')
+        await api.get('/blog/list')
             .then(response => {
                 console.log(response);
                 setAry(response.data);

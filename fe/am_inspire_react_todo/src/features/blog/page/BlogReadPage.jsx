@@ -96,7 +96,35 @@ const BlogReadPage = () => {
         // status === 201
         console.log(`debug >>>> comment button click`);
         let blogId = blog.id;
-        await api.post('/comments', { comment, email, blogId })
+        // json server version
+        // await api.post('/comments', { comment, email, blogId })
+        //     .then(response => {
+        //         console.log(`debug >>>> comment response`);
+        //         console.log(response)
+        //         // 부분 리렌더링을 위한 작업(배열)
+        //         // if(response.status === 201){
+        //         //     const newComments = response.data[response.data.length - 1];
+        //         //     setComments( ary => {
+        //         //         return[...ary, newComments]
+        //         //     })
+        //         //     setComment('');
+        //         // }
+        //         //부분 리렌더링을 위한 작업(객체)
+        //         if (response.status === 201) {
+        //             const newComment = response.data;
+        //             setComments((ary) => {
+        //                 return [...ary, newComment];
+        //             })
+        //             //setComments(response.data);
+        //             setComment('');
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
+
+        // 
+        await api.post('/blog/comment/write', { comment, email, blogId })
             .then(response => {
                 console.log(`debug >>>> comment response`);
                 console.log(response)
@@ -133,7 +161,22 @@ const BlogReadPage = () => {
         - 프론트쪽에서는 어떤 작업을 수행해야 하는지?
         - 댓글 UI re-rendering
         */
-        await api.delete(`comments/${id}`)
+
+        // json-server version
+        // await api.delete(`comments/${id}`)
+        //     .then(response => {
+        //         console.log(`debug >>>> axios request success`);
+        //         console.log(response)
+        //         if (response.status === 200) {
+        //             setComments(comments.filter((c) => c.id !== id));
+        //         }
+
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+
+        await api.delete(`blog/comment/delete/${id}`)
             .then(response => {
                 console.log(`debug >>>> axios request success`);
                 console.log(response)
@@ -157,7 +200,28 @@ const BlogReadPage = () => {
         set comment =?
         where id = 1;
         */
-        await api.patch(`comments/${id}`, {
+
+        // json-server version
+        // await api.patch(`comments/${id}`, {
+        //     comment
+        // })
+        //     .then(response => {
+        //         console.log(`debug >>>> axios request success`);
+        //         console.log(response)
+        //         if (response.status === 200) {
+        //             setComments( ary => {
+        //                 return ary.map( comment => {
+        //                     return comment.id === id ? {...comment, comment: comment} : comment
+        //                 })
+        //             })
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+
+        //
+        await api.patch(`/blog/comment/patch`, {
             comment
         })
             .then(response => {
@@ -194,7 +258,25 @@ const BlogReadPage = () => {
         //await api.get(`blogs/${id}`)
         //1:N 관계가 있을 때
         //embed 이용해서 특정블로그의 comments 함께 가져올 수 있음
-        await api.get(`blogs/${id}?_embed=comments`)
+        //Json-server version
+        // await api.get(`blogs/${id}?_embed=comments`)
+        //     .then(response => {
+        //         console.log(`debug >>>> blog response`);
+        //         console.log(response.data)
+        //         setBlog({
+        //             id: response.data.id,
+        //             title: response.data.title,
+        //             content: response.data.content,
+        //             email: response.data.email
+        //         })
+        //         setComments(response.data.comments);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
+
+        // spring-version
+        await api.get(`blog/read/${id}`)
             .then(response => {
                 console.log(`debug >>>> blog response`);
                 console.log(response.data)

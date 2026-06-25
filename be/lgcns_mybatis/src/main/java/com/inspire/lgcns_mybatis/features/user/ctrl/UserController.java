@@ -87,7 +87,7 @@ public class UserController {
 
     // service - signIn
     return ResponseEntity
-          .status(HttpStatus.CREATED)
+          .status(HttpStatus.OK)
           .headers(headers)
           .body((UserResponseDTO) map.get("data"));
   }
