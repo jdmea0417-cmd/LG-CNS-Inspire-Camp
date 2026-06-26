@@ -1,10 +1,14 @@
 package com.inspire.lgcns_mybatis.features.user.ctrl;
 
+// import java.util.HashMap;
 import java.util.Map;
+// import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+// import org.springframework.validation.BindingResult;
+// import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,17 +44,51 @@ public class UserController {
   // swagger 명세
   @Operation(summary = "회원가입", description = "신규가입(email, password, name)")
   @ApiResponse(responseCode = "201", description = "회원가입 성공")
+  @ApiResponse(responseCode = "400", description = "유효성 검사 실패")
   @ApiResponse(responseCode = "500", description = "회원가입 실패")
   @PostMapping("/signUp")
-  public ResponseEntity<Void> signUp(
+  public ResponseEntity<?> signUp(
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
         description = "사용자 가입정보를 담는 DTO",
         required = true,
         content = @Content(
         schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = UserRequestDTO.class)
-      )) @RequestBody UserRequestDTO request) {
+      )) @Valid @RequestBody UserRequestDTO request/*, BindingResult bindingResult*/) {
     System.out.println(">>>> debug user controller signup");
     System.out.println(">>>> debug params :" + request);
+
+    // 공통의 로직으로 AOP(global exception) 대체
+  //   if(bindingResult.hasErrors()) {
+
+  //     Map<String, String> errMap = new HashMap<>();
+  //     bindingResult.getAllErrors().forEach(err -> {
+  //       FieldError field = (FieldError)err;
+  //       String msg = err.getDefaultMessage();
+  //       errMap.put(field.getField(), msg);;
+  //       System.out.println(">>>> debug validation check : "+field.getField()+"\t"+msg);
+  //     });
+  //     // status code : 400 - bad request
+  //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errMap);
+      
+  //     // stream
+  //     Map<String, String> errMap = bindingResult.getFieldErrors()
+  //       .stream()
+  //       .map(FieldError.class::cast)
+  //       .peek(field -> System.out.println(">>>> debug validation check : " + field.getField() + "\t" + field.getDefaultMessage())) // 디버그 로그
+  //       .collect(Collectors.toMap(
+  //           FieldError::getField,        
+  //           FieldError::getDefaultMessage,  
+  //           (existing, replacement) -> existing
+  //       ));
+  //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errMap);
+
+  //     bindingResult.getFieldErrors() 
+  //         .stream()
+  //         .map(FieldError::getDefaultMessage)
+  //         .forEach(System.out::println);
+
+  //   }
+
     int insertFlag = userService.signUp(request);
     if (insertFlag != 0) {
       return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -180,7 +180,7 @@ const BlogReadPage = () => {
             .then(response => {
                 console.log(`debug >>>> axios request success`);
                 console.log(response)
-                if (response.status === 200) {
+                if (response.status === 204) {
                     setComments(comments.filter((c) => c.id !== id));
                 }
 
@@ -221,13 +221,13 @@ const BlogReadPage = () => {
         //     })
 
         //
-        await api.patch(`/blog/comment/patch`, {
+        await api.patch(`/blog/comment/update/${id}`, {
             comment
         })
             .then(response => {
                 console.log(`debug >>>> axios request success`);
                 console.log(response)
-                if (response.status === 200) {
+                if (response.status === 204) {
                     setComments( ary => {
                         return ary.map( comment => {
                             return comment.id === id ? {...comment, comment: comment} : comment
