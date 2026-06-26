@@ -1,5 +1,7 @@
 package com.inspire.lgcns_mybatis.features.comment.service;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.inspire.lgcns_mybatis.features.comment.domain.dto.CommentRequestDTO;
@@ -14,6 +16,18 @@ public class CommentService {
 
   public int write(CommentRequestDTO request) {
     System.out.println(">>>> debug comment service write");
-    return commentMapper.insertRow(request);
+    commentMapper.insertRow(request);
+
+    return request.getId();
   } 
+
+  public int delete(int id) {
+    System.out.println(">>>> debug comment service delete");
+    return commentMapper.deleteRow(id);
+  }
+
+  public int patch(Map<String, Object> map) {
+    System.out.println(">>>> debug comment service update");
+    return commentMapper.updateRow(map);
+  }
 }

@@ -1,6 +1,5 @@
 package com.inspire.lgcns_mybatis.features.comment.ctrl;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -11,10 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inspire.lgcns_mybatis.features.blog.domain.dto.BlogResponseDTO;
 import com.inspire.lgcns_mybatis.features.comment.domain.dto.CommentRequestDTO;
+import com.inspire.lgcns_mybatis.features.comment.domain.dto.CommentResponseDTO;
 import com.inspire.lgcns_mybatis.features.comment.service.CommentService;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,14 +38,21 @@ public class CommentController {
       @ApiResponse(responseCode = "400", description = "댓글입력실패")
   })
   @PostMapping("/write")
-  public ResponseEntity<Void> write(@RequestBody CommentRequestDTO request) {
+  public ResponseEntity<?> write(@RequestBody CommentRequestDTO request) {
     System.out.println(">>>> debug comment controller write");
     System.out.println(">>>> debug comment request params : "+request);
 
-    int insertFlag = commentService.write(request);
+    int commentId = commentService.write(request);
 
-    if(insertFlag != 0) {
-      return ResponseEntity.status(HttpStatus.CREATED).build();
+    System.out.println(">>>> debug comment controller return primary key = "+commentId);
+    
+    if(commentId != 0) {
+      return ResponseEntity.status(HttpStatus.CREATED).body(CommentResponseDTO.builder()
+        .blogid(request.getBlogId())
+        .email(request.getEmail())
+        .comment(request.getComment())
+        .id(commentId)
+        .build());
     } else {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
@@ -58,18 +65,21 @@ public class CommentController {
       @ApiResponse(responseCode = "404", description = "댓글수정실패")
   })
   @PatchMapping("/update/{id}")
-  public String update(@PathVariable("id") Integer id, 
-    @RequestParam("comment") String comment) {
-
-    System.out.println(">>>> debug comment controller update");
-    System.out.println(">>>> debug comment request path variable : "+id);
-    System.out.println(">>>> debug comment request params comment : "+comment);
-
-    Map<String, Object> map = new HashMap<>();
-    map.put("id", id);
-    map.put("comment", comment);
+  public ResponseEntity<BlogResponseDTO> update(@PathVariable("id") Integer id, 
+    @RequestBody Map<String, Object> map) {
     
-    return null;
+    map.put("id", id);
+    System.out.println(">>>> debug comment controller update");
+    System.out.println(">>>> debug comment request path variable : "+map.get("id"));
+
+    System.out.println(">>>> debug comment request params comment : "+map.get("comment"));
+    
+    int patchFlag = commentService.patch(map);
+    if(patchFlag != 0) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 
   // status code : 204 -> 삭제성공이고 응답본문이 없는 코드
@@ -79,10 +89,17 @@ public class CommentController {
       @ApiResponse(responseCode = "404", description = "댓글삭제실패")
   })
   @DeleteMapping("/delete/{id}")
-  public String delete(@PathVariable("id") Integer id) {
+  public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
 
     System.out.println(">>>> debug comment controller delete");
     System.out.println(">>>> debug comment request params id : "+id);
-    return null;
+    
+    
+    int deleteFlag = commentService.delete(id);
+    if(deleteFlag != 0) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 }

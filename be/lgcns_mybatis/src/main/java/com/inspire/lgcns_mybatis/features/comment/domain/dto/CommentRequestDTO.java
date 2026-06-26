@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CommentRequestDTO {
 
-  private int blogId;
+  private Integer id, blogId;
   private String comment, email;
   
 }
