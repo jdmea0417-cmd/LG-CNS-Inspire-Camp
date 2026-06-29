@@ -1,0 +1,47 @@
+package com.inspire.blog_jpa.features.user.domain.dto;
+
+import com.inspire.blog_jpa.features.user.domain.entity.UserEntity;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Builder
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+/*
+Validation Annotation
+@NotNull , @MotEmpty, @NotBlank @Pattern(정규표현식), @Email
+*/
+public class UserRequestDTO {
+
+  @Email(message = "이메일 형식이 아닙니다.")
+  private String email;
+
+  @NotBlank(message = "비밀번호는 필수입력 항목입니다.")
+  @Size(min = 8, max =20)
+  private String password;
+
+  @NotBlank(message = "이름은 필수입력 항목입니다.")
+  private String name;
+
+  private String role;
+
+  public static UserEntity toEntity(UserRequestDTO request) {
+    return UserEntity.builder()
+      .email(request.getEmail())
+      .password(request.getPassword())
+      .name(request.getName())
+      .role(request.getRole())
+      .build();
+  }
+}
