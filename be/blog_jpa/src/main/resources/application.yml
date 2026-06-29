@@ -1,0 +1,45 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: blog_jpa
+
+  # mariadb settings
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/inspire  
+    username: root
+    password: 5242
+
+  jpa:
+    hibernate:
+      # create, create-drop, update, none
+      ddl-auto: update
+    # 콘솔출력
+    show-sql: true
+    properties:
+      hibernate:
+        # h2
+        # dialect: org.hibernate.dialect.H2Diarlect
+
+        # mariadb
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
+
+  # redis - in memory DB
+  # docker
+  # data:
+  #   redis:
+  #     host: localhost
+  #     port: 6379
+  #     password:
+  #     timeout: 6000ms
+
+# mybatis setting  
+# mybatis:
+#   mapper-locations: /mappers/**/*Mapper.xml
+#   config-location: classpath:/mappers/config/mybatis-config.xml
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
