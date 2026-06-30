@@ -164,7 +164,11 @@ const SignInPage = () => {
           email : form.email,
           password : form.password
         }
-        await api.post(`user/signIn`, data)
+        // mybatis ver
+        // await api.post(`user/signIn`, data)
+
+        // spring ver jpa
+        await api.get(`/api/v1/users?email=${form.email}&password=${form.password}`)
         .then(response => {
           console.log('debug >>>> axios request success');
           console.log(response);
@@ -175,7 +179,13 @@ const SignInPage = () => {
                 // token - Authorization(인증)
                 // response.headers.get('Authorization')
                 // 이러한 인증정보를 요청시마다 헤더에 포함해서 전달을 해야 또다시 인증을 요청하지 않는다.
-              const token = response.headers.get('Authorization');
+              const accessToken = response.headers.get('Authorization');
+              const refreshToken = response.headers.get('Refresh-Token');
+              console.log(`accessToken -> ${accessToken}`);
+              console.log(`refreshToken -> ${refreshToken}`);
+              localStorage.setItem("at", accessToken);
+              localStorage.setItem("rt", refreshToken);
+
               const user = response.data;
               localStorage.setItem("token", user.email);
 

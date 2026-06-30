@@ -33,6 +33,8 @@ const WelcomeMessage = styled.div`
 `;
 
 const BlogWritePage = () => {
+    const at = localStorage.getItem(`at`);
+    console.log(`debug >>>> BlogWritePage mount at : ${at}`)
 
     //state
     const [title, setTitle] = useState('');
@@ -57,8 +59,11 @@ const BlogWritePage = () => {
         //         console.log(`debug >>>> post err`, err)
         //     })
         
-        // spring-server version
-        await api.post('/blog/write', {title, content, email})
+        // spring-server Mybatis
+        // await api.post('/blog/write', {title, content, email})
+
+        // spring-server JPA
+        await api.post('/api/v1/blogs', {title, content, email} , {headers : {Authorization: at ? at : ""}})
             .then( response => {
                 console.log(`debug >>>> post response`)
                 if( response.status === 201)

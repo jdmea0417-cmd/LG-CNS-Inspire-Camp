@@ -72,6 +72,8 @@ const WelcomeMessage = styled.div`
 
 
 const BlogReadPage = () => {
+    const at = localStorage.getItem(`at`);
+    console.log(`debug >>>> BlogWritePage mount at : ${at}`)
     // url 뒤에 붙어서 넘어오는 QueryString, PathVariable 값을 받기위해서는 useParams()
     const { id } = useParams();
     console.log(`debug >>>> BlogReadPage mount params value : ${id}`)
@@ -276,12 +278,15 @@ const BlogReadPage = () => {
         //     })
 
         // spring-version
-        await api.get(`blog/read/${id}`)
+        await api.get(`/api/v1/blogs/${id}`, {
+            headers : {Authorization: at ? at : ""}
+        })
             .then(response => {
                 console.log(`debug >>>> blog response`);
                 console.log(response.data)
                 setBlog({
-                    id: response.data.id,
+                    // id: response.data.id,
+                    id : response.data.blogId,
                     title: response.data.title,
                     content: response.data.content,
                     email: response.data.email
@@ -289,6 +294,7 @@ const BlogReadPage = () => {
                 setComments(response.data.comments);
             })
             .catch(err => {
+                console.log(`debug >>>> id : ${id}`);
                 console.log(err);
             })
     }
