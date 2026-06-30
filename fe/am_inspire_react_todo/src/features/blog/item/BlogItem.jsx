@@ -26,7 +26,7 @@ const BlogItem = ({blog}) => {
     const moveUrl = useNavigate();
     return(
         <Wrapper onClick={() => {
-            moveUrl(`/blog/read/${blog.id}`)
+            moveUrl(`/blog/read/${blog.blogId}`)
         }}>
             <TitleText>{blog.title}</TitleText>
         </Wrapper>

@@ -44,11 +44,20 @@ const LogoutButton = styled(Button)`
 // 인증, 인가
 
 const BlogMainPage = () => {
-    console.log(`debug >>>> BlogMainPage mount`)
+    const at = localStorage.getItem(`at`);
+    console.log(`debug >>>> BlogMainPage mount at : ${at}`)
     const [ary, setAry] = useState([]);
+
     const loadData = async () => {
         // json-server와 통신(get)을 통해서 응답된 데이터를 ary 변수에 바인딩하는 구현
-        await api.get('/blog/list')
+
+        // spring-server version
+        // await api.get('/blog/list')
+
+        // spring-server JPA
+        await api.get('/api/v1/blogs', {
+            headers : {Authorization: at ? at : ""}
+        })
             .then(response => {
                 console.log(response);
                 setAry(response.data);

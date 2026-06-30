@@ -117,7 +117,10 @@ const SignUpPage = () => {
         //         console.log(err);
         //     })
         // spring boot backend 서버를 활용한 통신
-        await api.post('/user/signUp', data)
+        // await api.post('/user/signUp', data)
+
+        // spring-version jpa
+        await api.post('/api/v1/users', data)
             .then(response => {
                 console.log('debug >>>> post response');
                 console.log(response)

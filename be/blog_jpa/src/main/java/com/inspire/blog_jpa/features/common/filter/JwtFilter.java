@@ -1,11 +1,17 @@
 package com.inspire.blog_jpa.features.common.filter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,6 +29,16 @@ Filter ?
 */
 @Component
 public class JwtFilter implements Filter {
+
+  @Value("${jwt.secret}")
+  private String secret;
+  private Key key;
+
+  @PostConstruct
+  private void init() {
+    System.out.println("debug >>>> Provider jwt secret : "+secret);
+    this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+  }
 
   private static final List<String> WHITE_LIST = List.of(
       "/swagger-ui/**",
@@ -83,14 +99,19 @@ public class JwtFilter implements Filter {
     String token = header.substring(7);
     System.out.println("debug >>>> JwtFilter token : "+token);
     System.out.println("debug >>>> JwtFilter token validation");
-
+    System.out.println("debug >>>> Payload(Claims) == token 추출");
     try{
+      Jwts.parserBuilder()
+        .setSigningKey(key)
+        .build()
+        .parseClaimsJws(token);
+      
+        System.out.println("debug >>>> JwtFilter token validation success move to ctrl");
       chain.doFilter(request, response);
     } catch(Exception e) {
       e.printStackTrace();
+      return;
     }
-    chain.doFilter(request, response);
-
   }
 
 }
