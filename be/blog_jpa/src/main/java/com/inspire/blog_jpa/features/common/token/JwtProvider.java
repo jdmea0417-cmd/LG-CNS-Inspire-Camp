@@ -29,7 +29,7 @@ public class JwtProvider {
         return Jwts.builder()
             .setSubject(email)
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 30))
+            .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 9))
             .signWith(getSecretKey())
             .compact();
     }

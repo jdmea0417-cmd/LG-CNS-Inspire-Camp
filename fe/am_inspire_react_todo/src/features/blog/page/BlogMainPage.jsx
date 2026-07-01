@@ -75,10 +75,20 @@ const BlogMainPage = () => {
     const moveUrl = useNavigate();
     console.log(ary);
 
-    const logoutHandler = (e) => {
+    const logoutHandler = async () => {
         console.log(`debug >>>> BlogMainPage logout button click`);
-        localStorage.removeItem('token');
-        moveUrl('/')
+        await api.delete('/api/v1/users', null, {
+            headers: { Authorization: at ? at : "" }}
+        )
+            .then(response => {
+                console.log(response);
+                localStorage.removeItem('token');
+                localStorage.removeItem('at');
+                moveUrl('/')
+            })
+            .catch(err => {
+                console.log(`debug >>>> axios request error ${err}`);
+            })
     }   
     return (
         <Wrapper>
@@ -89,7 +99,7 @@ const BlogMainPage = () => {
                 &nbsp;&nbsp;&nbsp;
                 <Button title='로그아웃'
                     onClick={logoutHandler} />
-                <BlogList blogs={ary} />
+                <BlogList blogs={ary || []} />
             </Container>
         </Wrapper>
     )

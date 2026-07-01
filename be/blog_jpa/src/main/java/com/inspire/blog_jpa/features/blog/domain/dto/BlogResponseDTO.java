@@ -3,6 +3,7 @@ package com.inspire.blog_jpa.features.blog.domain.dto;
 import java.util.List;
 
 import com.inspire.blog_jpa.features.blog.domain.entity.BlogEntity;
+import com.inspire.blog_jpa.features.comment.domain.dto.CommentResponseDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,11 +22,12 @@ import lombok.ToString;
 public class BlogResponseDTO {
   private Integer blogId;
   private String title, content, email;
+  private List<CommentResponseDTO> comments;
 
   // 단순하게 blog 반환하는 구조
   public static BlogResponseDTO fromEntity(BlogEntity entity) {
     return BlogResponseDTO.builder()
-        .blogId(entity.getBlogid())
+        .blogId(entity.getBlogId())
         .title(entity.getTitle())
         .content(entity.getContent())
         .email(entity.getAuthor().getEmail())
@@ -33,17 +35,17 @@ public class BlogResponseDTO {
   }
 
   // blog + comment(N+1) 반환하는 구조
-  // public static BlogResponseDTO fromEntityWithComments(BlogEntity entity) {
-  //   return BlogResponseDTO.builder()
-  //       .blogId(entity.getBlogid())
-  //       .title(entity.getTitle())
-  //       .content(entity.getContent())
-  //       .email(entity.getAuthor().getEmail())
-  //       .comments(
-  //           entity.getComments()
-  //               .stream()
-  //               .map(CommentResponseDTO::fromEntity)
-  //               .toList())
-  //       .build();
-  // }
+  public static BlogResponseDTO fromEntityWithComments(BlogEntity entity) {
+    return BlogResponseDTO.builder()
+        .blogId(entity.getBlogId())
+        .title(entity.getTitle())
+        .content(entity.getContent())
+        .email(entity.getAuthor().getEmail())
+        .comments(
+            entity.getComments()
+                .stream()
+                .map(comment -> new CommentResponseDTO().fromEntity(comment))
+                .toList())
+        .build();
+  }
 }

@@ -93,58 +93,32 @@ const BlogReadPage = () => {
 
     //handler
     const commentHandler = async (e) => {
-        // comment, token value(email), blog primary key(id)
-        // axios post
-        // status === 201
         console.log(`debug >>>> comment button click`);
         let blogId = blog.id;
-        // json server version
-        // await api.post('/comments', { comment, email, blogId })
-        //     .then(response => {
-        //         console.log(`debug >>>> comment response`);
-        //         console.log(response)
-        //         // 부분 리렌더링을 위한 작업(배열)
-        //         // if(response.status === 201){
-        //         //     const newComments = response.data[response.data.length - 1];
-        //         //     setComments( ary => {
-        //         //         return[...ary, newComments]
-        //         //     })
-        //         //     setComment('');
-        //         // }
-        //         //부분 리렌더링을 위한 작업(객체)
-        //         if (response.status === 201) {
-        //             const newComment = response.data;
-        //             setComments((ary) => {
-        //                 return [...ary, newComment];
-        //             })
-        //             //setComments(response.data);
-        //             setComment('');
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
+        console.log(`debug >>>> blog : ${blog}`)
 
-        // 
-        await api.post('/blog/comment/write', { comment, email, blogId })
+        await api.post(`/api/v1/blogs/comments`, {
+            comment, email, blogId
+        }, { headers: { Authorization: at ? at : "" } })
             .then(response => {
                 console.log(`debug >>>> comment response`);
                 console.log(response)
-                // 부분 리렌더링을 위한 작업(배열)
-                // if(response.status === 201){
-                //     const newComments = response.data[response.data.length - 1];
-                //     setComments( ary => {
-                //         return[...ary, newComments]
-                //     })
-                //     setComment('');
-                // }
-                //부분 리렌더링을 위한 작업(객체)
+
                 if (response.status === 201) {
-                    const newComment = response.data;
-                    setComments((ary) => {
-                        return [...ary, newComment];
-                    })
-                    //setComments(response.data);
+                    let newComment;
+
+                    // 응답이 배열인지 단일 객체인지 확인
+                    if (Array.isArray(response.data)) {
+                        newComment = response.data[response.data.length - 1];
+                    } else {
+                        newComment = response.data;
+                    }
+
+                    if (newComment) {
+                        setComments((prevComments) => {
+                            return [...prevComments, newComment];
+                        });
+                    }
                     setComment('');
                 }
             })
@@ -178,12 +152,13 @@ const BlogReadPage = () => {
         //         console.log(err)
         //     })
 
-        await api.delete(`blog/comment/delete/${id}`)
+        // await api.delete(`blog/comment/delete/${id}`)
+        await api.delete(`/api/v1/comments/${id}`, { headers: { Authorization: at ? at : "" } })
             .then(response => {
                 console.log(`debug >>>> axios request success`);
                 console.log(response)
                 if (response.status === 204) {
-                    setComments(comments.filter((c) => c.id !== id));
+                    setComments(comments.filter((c) => c.commentId !== id));
                 }
 
             })
@@ -223,16 +198,16 @@ const BlogReadPage = () => {
         //     })
 
         //
-        await api.patch(`/blog/comment/update/${id}`, {
-            comment
-        })
+        await api.patch(`/api/v1/comments/${id}`,
+            { comment }
+            , { headers: { Authorization: at ? at : "" } })
             .then(response => {
                 console.log(`debug >>>> axios request success`);
                 console.log(response)
                 if (response.status === 204) {
-                    setComments( ary => {
-                        return ary.map( comment => {
-                            return comment.id === id ? {...comment, comment: comment} : comment
+                    setComments(ary => {
+                        return ary.map(comment => {
+                            return comment.commentId === id ? { ...comment, comment: comment } : comment
                         })
                     })
                 }
@@ -257,10 +232,10 @@ const BlogReadPage = () => {
         */
 
         //댓글이 없는 상황
-        //await api.get(`blogs/${id}`)
-        //1:N 관계가 있을 때
-        //embed 이용해서 특정블로그의 comments 함께 가져올 수 있음
-        //Json-server version
+        // await api.get(`blogs/${id}`)
+        // 1:N 관계가 있을 때
+        // embed 이용해서 특정블로그의 comments 함께 가져올 수 있음
+        // Json-server version
         // await api.get(`blogs/${id}?_embed=comments`)
         //     .then(response => {
         //         console.log(`debug >>>> blog response`);
@@ -277,16 +252,15 @@ const BlogReadPage = () => {
         //         console.log(err);
         //     })
 
-        // spring-version
         await api.get(`/api/v1/blogs/${id}`, {
-            headers : {Authorization: at ? at : ""}
+            headers: { Authorization: at ? at : "" }
         })
             .then(response => {
                 console.log(`debug >>>> blog response`);
                 console.log(response.data)
                 setBlog({
-                    // id: response.data.id,
-                    id : response.data.blogId,
+                    id: response.data.blogId,
+                    blogId: response.data.blogId,
                     title: response.data.title,
                     content: response.data.content,
                     email: response.data.email
@@ -301,7 +275,7 @@ const BlogReadPage = () => {
 
     useEffect(() => {
         getBlog();
-    }, [id])
+    }, [])
 
     return (
         <Wrapper>

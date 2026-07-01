@@ -20,6 +20,8 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         # h2
         # dialect: org.hibernate.dialect.H2Diarlect
 

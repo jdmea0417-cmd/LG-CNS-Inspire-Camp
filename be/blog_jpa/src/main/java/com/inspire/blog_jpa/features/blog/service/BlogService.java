@@ -47,10 +47,13 @@ public class BlogService {
   }
 
   @Transactional(readOnly = true)
-  public BlogResponseDTO read(Integer id) {
-    System.out.println(">>>> debug blog service read : "+id);
+  public BlogResponseDTO read(Integer blogId) {
+    System.out.println(">>>> debug blog service read : "+blogId);
 
-    return BlogResponseDTO.fromEntity(blogRepository.findById(id)
-      .orElseThrow(() -> new RuntimeException("존재하지 않는 글입니다.")));
+    return blogRepository.findByComments(blogId)
+      .map(BlogResponseDTO::fromEntityWithComments)
+      .orElseThrow(() -> new RuntimeException("존재하지 않는 글입니다."));
+    // return BlogResponseDTO.fromEntity(blogRepository.findById(id)
+    //   .orElseThrow(() -> new RuntimeException("존재하지 않는 글입니다.")));
   }
 }

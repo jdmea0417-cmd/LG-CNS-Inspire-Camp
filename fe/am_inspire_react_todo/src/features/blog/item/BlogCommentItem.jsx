@@ -25,12 +25,12 @@ const ContentText = styled.p`
     white-space: pre-wrap;
 `;
 
-const BlogCommentItem = ({ comments, onClick, updateClick }) => {
+const BlogCommentItem = ({ comment, onClick, updateClick }) => {
     console.log(`debug >>>> blog comment item page load`);
     const email = localStorage.getItem('token');
-    console.log(`debug >>>> token === comment , ${email} === ${comments.email}`)
+    console.log(`debug >>>> token === comment , ${email} === ${comment.email}`)
 
-    const [mention, setMention] = useState(comments.comment)
+    const [mention, setMention] = useState(comment.comment)
     const [isEdit, setIsEdit] = useState(false);
     // useEffect(() => {
     //     setMention(comments.comment)
@@ -63,7 +63,7 @@ const BlogCommentItem = ({ comments, onClick, updateClick }) => {
             //     .catch(err => {
             //         console.log(err);
             //     })
-            updateClick(comments.id, mention);
+            updateClick(comment.commentId, mention);
             setIsEdit(false);
         }
     }
@@ -75,10 +75,10 @@ const BlogCommentItem = ({ comments, onClick, updateClick }) => {
                 changeHandler={(e) => setMention(e.target.value)}
                 disabled={!isEdit} />
 
-            {email === comments.email &&
+            {email === comment.email &&
                 <div>
                     <Button title='삭제'
-                        onClick={() => onClick(comments.id)}></Button>
+                        onClick={() => onClick(comment.commentId)}></Button>
                     &nbsp;&nbsp;&nbsp;
                     <Button title={isEdit ? '수정완료' : '수정'}
                         onClick={(e) => updateHandler(e)}></Button>
