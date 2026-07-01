@@ -1,7 +1,6 @@
 package com.inspire.blog_jpa.features.blog.domain.dto;
 
 import com.inspire.blog_jpa.features.blog.domain.entity.BlogEntity;
-import com.inspire.blog_jpa.features.user.domain.dto.UserRequestDTO;
 import com.inspire.blog_jpa.features.user.domain.entity.UserEntity;
 
 import lombok.AllArgsConstructor;

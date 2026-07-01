@@ -195,6 +195,7 @@ const SignInPage = () => {
         .catch (err => {
             console.log('로그인 오류:', err);
             setError('로그인 중 오류가 발생했습니다.');
+            setLoading(false)
         })
     }
 

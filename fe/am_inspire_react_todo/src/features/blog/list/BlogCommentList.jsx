@@ -20,7 +20,7 @@ const BlogCommentList = ({comments, onClick, updateClick}) => {
             {
                 comments.map((comment, index) => {
                     return <BlogCommentItem key={index} 
-                        comments={comment}
+                        comment={comment}
                         onClick={onClick} 
                         updateClick={updateClick}/>
                 })

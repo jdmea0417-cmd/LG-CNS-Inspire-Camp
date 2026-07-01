@@ -1,6 +1,10 @@
 package com.inspire.blog_jpa.features.blog.domain.entity;
 
+import java.util.List;
+
 import com.inspire.blog_jpa.features.user.domain.entity.UserEntity;
+
+import com.inspire.blog_jpa.features.comment.domain.entity.CommentEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +37,7 @@ public class BlogEntity {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
-  private Integer blogid;
+  private Integer blogId;
 
   @Column(nullable = false, length = 200)
   private String title;
@@ -46,5 +51,8 @@ public class BlogEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "email")
   private UserEntity author;
+
+  @OneToMany(mappedBy = "blogs", orphanRemoval = true)
+  private List<CommentEntity> comments;
 
 }
