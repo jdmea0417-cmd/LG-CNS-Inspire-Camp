@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.inspire.blog_jpa.features.blog.domain.entity.BlogEntity;
 import com.inspire.blog_jpa.features.comment.domain.dto.CommentResponseDTO;
+import com.inspire.blog_jpa.features.user.domain.dto.UserResponseDTO;
+import com.inspire.blog_jpa.features.user.domain.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,32 +22,42 @@ import lombok.ToString;
 @AllArgsConstructor
 // user - blog(1:N) - comment(1:N)
 public class BlogResponseDTO {
-  private Integer blogId;
-  private String title, content, email;
-  private List<CommentResponseDTO> comments;
+    private Integer     blogId ;
+    private String      title, content, email ;
 
-  // 단순하게 blog 반환하는 구조
-  public static BlogResponseDTO fromEntity(BlogEntity entity) {
-    return BlogResponseDTO.builder()
-        .blogId(entity.getBlogId())
-        .title(entity.getTitle())
-        .content(entity.getContent())
-        .email(entity.getAuthor().getEmail())
-        .build();
-  }
+    // 
+    private List<CommentResponseDTO> comments; 
 
-  // blog + comment(N+1) 반환하는 구조
-  public static BlogResponseDTO fromEntityWithComments(BlogEntity entity) {
-    return BlogResponseDTO.builder()
-        .blogId(entity.getBlogId())
-        .title(entity.getTitle())
-        .content(entity.getContent())
-        .email(entity.getAuthor().getEmail())
-        .comments(
-            entity.getComments()
-                .stream()
-                .map(comment -> new CommentResponseDTO().fromEntity(comment))
-                .toList())
-        .build();
-  }
+    // 단순하게 blog 반환하는 구조(write, update, list(BlogDTO))
+
+    public static BlogResponseDTO fromEntity(BlogEntity entity) {
+        return BlogResponseDTO.builder()
+                .blogId(entity.getBlogId())
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .email(entity.getAuthor().getEmail())
+                .build();
+    }
+
+    // blog + comment(N + 1) 반환하는 구조( read ) 
+    public static BlogResponseDTO fromEntityWithComments(BlogEntity entity) {
+        return BlogResponseDTO.builder()
+                .blogId(entity.getBlogId())
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .email(entity.getAuthor().getEmail())
+                .comments(
+                    entity.getComments()
+                        .stream()
+                        .map(CommentResponseDTO::fromEntity)
+                        .toList()
+                )
+                .build();
+    }
+
 }
+
+
+
+
+

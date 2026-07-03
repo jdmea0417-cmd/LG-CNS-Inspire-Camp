@@ -18,30 +18,33 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-/*
-Validation Annotation
-@NotNull , @MotEmpty, @NotBlank @Pattern(정규표현식), @Email
+/* 
+Validation Annotation 
+@NotNull , @NotEmpty, @NotBlank, @Pattern(정규표현식), @Email etc......
 */
 public class UserRequestDTO {
 
-  @Email(message = "이메일 형식이 아닙니다.")
-  private String email;
+    @Email(message = "이메일 형식이 아닙니다.")
+    private String  email ;
 
-  @NotBlank(message = "비밀번호는 필수입력 항목입니다.")
-  @Size(min = 8, max =20)
-  private String password;
+    @NotBlank(message = "비밀번호는 필수입력 항목입니다.")
+    @Size(min = 8, max = 20)
+    private String  password ;
+    
+    @NotBlank(message = "이름은 필수입력 항목입니다.")
+    private String  name ;
 
-  @NotBlank(message = "이름은 필수입력 항목입니다.")
-  private String name;
+    private String  role ;
 
-  private String role;
 
-  public static UserEntity toEntity(UserRequestDTO request) {
-    return UserEntity.builder()
-      .email(request.getEmail())
-      .password(request.getPassword())
-      .name(request.getName())
-      .role(request.getRole())
-      .build();
-  }
+    // JPA는 xxxEntity 기반으로 동작하므로 DTO -> Entity 
+    public static UserEntity toEntity(UserRequestDTO request) {
+        return UserEntity.builder()
+                    .email(request.getEmail()) 
+                    .password(request.getPassword())
+                    .name(request.getName())
+                    .role(request.getRole())
+                    .build() ;
+    }
 }
+

@@ -2,6 +2,7 @@ package com.inspire.blog_jpa.features.comment.domain.dto;
 
 import com.inspire.blog_jpa.features.blog.domain.entity.BlogEntity;
 import com.inspire.blog_jpa.features.comment.domain.entity.CommentEntity;
+import com.inspire.blog_jpa.features.user.domain.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,15 +16,19 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentRequestDTO {
-  
-  private Integer commentId, blogId;
-  private String comment, email;
-  
-  public CommentEntity toEntity(BlogEntity request) {
-    return CommentEntity.builder()
-      .comment(this.getComment())
-      .email(this.getEmail())
-      .blogs(request)
-      .build();
-  }
+
+    private String  comment ;
+    
+    private String  email ;
+
+    private Integer blogId ;
+
+    public CommentEntity toEntity(BlogEntity request) {
+        return CommentEntity.builder()
+                    .comment(this.comment)
+                    .email(this.email)
+                    .blog(request)
+                    .build() ;
+    }
+
 }
