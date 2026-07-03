@@ -17,7 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
 @Entity
 @Table(name = "JPA_COMMENT_TBL")
 
@@ -27,23 +26,24 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "Id", nullable = false)
-  private Integer commentId;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commentId")
+    private Integer commentId ;    
 
-  @Column(nullable = false, length = 200)
-  private String comment;
+    @Column(nullable = false , length = 500) 
+    private String comment ;
 
-  @Column(nullable = false, length = 50)
-  private String email;
+    @Column(nullable = false , length = 100) 
+    private String email; 
 
-  // 부모가 삭제되도 삭제하지 않음(orphanRemoval = false)
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "blog")
-  private BlogEntity blogs;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "blogId")
+    private BlogEntity blog ;
 
-  public void updateComment(String comment) {
-    this.comment = comment;
-  }
+    public void updateComment(String comment) {
+        this.comment = comment ;
+    }
+
 }

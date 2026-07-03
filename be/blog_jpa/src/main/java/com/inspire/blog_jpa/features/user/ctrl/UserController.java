@@ -14,77 +14,104 @@ import java.util.Map;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 /*
-api 명세서 만들 때 사용하는 네이밍규칙
+api 명세서 만들 때 사용하는 네이밍규칙 
 - Noun 작성
-GET /users
-GET /users/{email}
-POST /users
-PUT /users/{email}
-DELETE /users/{email}
-
-GET /api/v1/users
-GET /api/v1/users/{email}
-POST /api/v1/users
-PUT /api/v1/users/{email}
-DELETE /api/v1/users/{email}
+GET    /users
+GET    /users/{email}  
+POST   /users
+PUT    /users/{email}
+DELETE /users/{email} 
 
 
+GET    /api/v1/users
+GET    /api/v1/users/{email}  
+POST   /api/v1/users
+PUT    /api/v1/users/{email}
+DELETE /api/v1/users/{email} 
 
-1           :          N , 1        :         N
-User ----------------> Blog -------------> Comment
+
+1         :       N , 1      :      N   
+User -----------> Blog -----------> Comment
+
+/users/{email}/blogs
+/blogs/{id}/comments
+
 */
 
 @RestController
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 public class UserController {
-  private final UserService userService;
-
-  @PostMapping("/users")
-  public ResponseEntity<?> postMethodName(@RequestBody UserRequestDTO request) {
-    System.out.println(">>>> debug user controller signUp");
-    System.out.println(">>>> debug params : "+request);
-
-    // 패스워드 암호화 작업(spring - security)
-    UserResponseDTO response = userService.signUp(request);
-
-    // status code : 201, 500
-    if(response != null) {
-      return ResponseEntity.status(HttpStatus.CREATED).build();
-    } else {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-  }
-
-  public String getMethodName(@RequestParam String param) {
-      return new String();
-  }
-  
-  @GetMapping("/users")
-  public ResponseEntity<UserResponseDTO> signIn( UserRequestDTO request ) {
-    System.out.println(">>>> debug user controller signin");
-    System.out.println(">>>> debug params :" + request);
-
-    Map<String, Object> map = userService.signIn(request);
     
-    // token : access token, refresh token
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Authorization", "Bearer "+(String) map.get("at"));
-    headers.add("Refresh-Token", (String) map.get("rt"));
-    headers.add("Access-Control-Expose-Headers", "Authorization, Refresh-Token");
+    private final UserService       userService ;
 
-    // service - signIn
-    return ResponseEntity
-          .status(HttpStatus.OK)
-          .headers(headers)
-          .body((UserResponseDTO) map.get("data"));
-  }
+    // 회원가입시 암호를 해싱처리하기 위해서(SecurityConfig) 
+    private final PasswordEncoder   passwordEncoder ; 
+
+    @PostMapping("/users")
+    public ResponseEntity<?> signUp(@RequestBody UserRequestDTO request) {
+        System.out.println(">>>> debug user controller signUp "); 
+        System.out.println(">>>> debug params : "+request); 
+
+        // 패스워드 해싱 작업(spring - security) 
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        UserResponseDTO response = userService.signUp(request) ;
+
+        // status code : 201, 500 
+        if(response != null ) {
+            return ResponseEntity.status(HttpStatus.CREATED).build() ;     
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build() ; 
+        }
+
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<UserResponseDTO> signIn(UserRequestDTO request) {
+        System.out.println(">>>> debug user controller signIn "); 
+        System.out.println(">>>> debug params : "+request); 
+
+        Map<String, Object> map = userService.signIn(request);
+
+
+        // token : access token , refresh token
+        HttpHeaders headers = new HttpHeaders();
+        
+        headers.add("Authorization", "Bearer "+(String)(map.get("at")));
+        headers.add("Refresh-Token", (String)(map.get("rt")));
+        headers.add("Access-Control-Expose-Headers", "Authorization, Refresh-Token");
+        // service - signIn 
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headers)
+                .body((UserResponseDTO)(map.get("data")));
+                
+    }
+
+    @PostMapping("/users/logout")
+    public ResponseEntity<?> signOut(@RequestHeader("Authorization") String authorization) {
+        System.out.println(">>>> debug user controller logout "); 
+        System.out.println(">>>> debug user controller logout authorization : "+authorization);
+
+        String at = authorization.replace("Bearer ", "");
+        userService.signOut(at); 
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+        
+    }
+    
+    
+    
+
 }

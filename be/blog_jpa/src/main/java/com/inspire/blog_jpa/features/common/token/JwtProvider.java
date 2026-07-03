@@ -7,6 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -42,5 +43,16 @@ public class JwtProvider {
             .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7))
             .signWith(getSecretKey())
             .compact();
+    }
+
+    public String getUserEmailFromAT(String at) {
+        System.out.println("debug >>>> Provider getUserEmailFromAT : "+at);
+        Claims claims = Jwts.parser()
+            .setSigningKey(getSecretKey())
+            .parseClaimsJws(at)
+            .getBody();
+        
+        System.out.println("debug >>>> Provider getUserEmailFromAT claims : "+claims);
+        return claims.getSubject();
     }
 }

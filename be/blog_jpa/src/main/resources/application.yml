@@ -1,47 +1,58 @@
 server:
-  port: 8000
+    port: 8000
 
 spring:
-  application:
-    name: blog_jpa
+    application:
+        name: blog_jpa
 
-  # mariadb settings
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/inspire  
-    username: root
-    password: 5242
+    # mariadb settings
+    datasource:
+        
+        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:mariadb://localhost:3306/inspire  
+        username: root
+        password: 123456789
+    
+    jpa:
+        hibernate:
+            # create, create-drop, update, none
+            ddl-auto: none 
 
-  jpa:
-    hibernate:
-      # create, create-drop, update, none
-      ddl-auto: update
-    # 콘솔출력
-    show-sql: true
-    properties:
-      hibernate:
-        naming:
-          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        # h2
-        # dialect: org.hibernate.dialect.H2Diarlect
+        # 콘솔출력
+        show-sql: true
+        properties:
+            hibernate:
+                naming:  
+                    physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
-        # mariadb
-        dialect: org.hibernate.dialect.MariaDBDialect
-        format_sql: true
+                # h2
+                # dialect: org.hibernate.dialect.H2Dialect 
 
-  # redis - in memory DB
-  # docker
-  # data:
-  #   redis:
-  #     host: localhost
-  #     port: 6379
-  #     password:
-  #     timeout: 6000ms
+                # mariadb 
+                dialect: org.hibernate.dialect.MariaDBDialect 
+                format_sql: true 
 
-# mybatis setting  
+    # redis - in memory DB
+    # docker 
+    # docker run -d --name redis-container -p 6379:6379 redis:7.2
+    # docker exec -it redis-container redis-cli 
+    # docker run -d --name redis-insight -p 8001:5540 redis/redisinsight:latest
+    # http://localhost:8001
+    # host : host.docker.internal , redis 
+    data:
+        redis:
+            host: localhost
+            port: 6379
+            password:
+            timeout: 6000ms
+
+
+# mybatis setting
 # mybatis:
-#   mapper-locations: /mappers/**/*Mapper.xml
-#   config-location: classpath:/mappers/config/mybatis-config.xml
+#     mapper-locations: /mappers/**/*Mapper.xml 
+#     config-location: classpath:/mappers/config/mybatis-config.xml    
+
 
 jwt:
-  secret: ${JWT_SECRET_KEY}
+    secret: ${JWT_SECRET_KEY}
+

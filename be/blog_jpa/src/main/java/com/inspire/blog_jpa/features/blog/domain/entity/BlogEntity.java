@@ -1,11 +1,12 @@
 package com.inspire.blog_jpa.features.blog.domain.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.inspire.blog_jpa.features.comment.domain.entity.CommentEntity;
 import com.inspire.blog_jpa.features.user.domain.entity.UserEntity;
 
-import com.inspire.blog_jpa.features.comment.domain.entity.CommentEntity;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,28 +32,37 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 
-// 참조관계의 엔티티는 엔티티 간의 연관관계를 관리해야함
-// cascade, fetch, optional, orphanRemoval
+// 참조관계의 엔티티는 언티티 간의 연관관계를 관리해야함. 
+// cascade, fetch, optional, orphanRemoval 
 public class BlogEntity {
-  
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
-  private Integer blogId;
 
-  @Column(nullable = false, length = 200)
-  private String title;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment 
+    @Column(name = "blogId")
+    private Integer     blogId ;
 
-  @Column(nullable = false, length = 200)
-  private String content;
+    @Column(nullable = false , length = 200)
+    private String      title ;
 
-  // 외래키
-  // optional : NULL 허용 여부
-  // select * from user where id = x ; 시, blog는 조회하지 않음(FetchType.LAZY)
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "email")
-  private UserEntity author;
+    @Column(nullable = false , length = 200)
+    private String      content ;
 
-  @OneToMany(mappedBy = "blogs", orphanRemoval = true)
-  private List<CommentEntity> comments;
+
+    // 외래키
+    // fetch : select * from user where id= x ; blog 조회하지 않음. 
+    // optional : null 허용하지 않음.
+    @ManyToOne(fetch = FetchType.LAZY , optional = false) 
+    @JoinColumn(name = "email")
+    private UserEntity  author ; 
+
+    // 댓글 Comment
+    // 연관댓글 삭제 X : @OneToMany(mappedBy = "blog" , orphanRemoval = false )
+    // 연관댓글 삭제 O : @OneToMany(mappedBy = "blog" , cascade = xxx.ALL, orphanRemoval = true )
+    
+    // 연관댓글 삭제 O
+    @OneToMany( mappedBy = "blog" ,
+                cascade  = CascadeType.ALL,
+                orphanRemoval = true)
+    private List<CommentEntity> comments = new ArrayList<>();
 
 }

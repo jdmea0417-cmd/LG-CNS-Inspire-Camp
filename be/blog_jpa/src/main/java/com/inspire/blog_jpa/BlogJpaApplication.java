@@ -9,12 +9,13 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class BlogJpaApplication {
 
 	public static void main(String[] args) {
-		// env 설정을 스프링에서 .yaml 에서 사용할 수 있또록 자바환경에 추가하는 코드
+		// env 설정을 스프링에서 .yaml 에서 사용할 수 있도록 자바환경에 추가하는 코드 
 		Dotenv env = Dotenv.configure().ignoreIfMissing().load();
 		env.entries().forEach( entry -> {
 			System.setProperty(entry.getKey(), entry.getValue());
-			// System.out.println("debug >>>> env "+entry.getKey()+"\t"+entry.getValue());
+			// System.out.println("debug >>>> env "+entry.getKey()+"\t"+entry.getValue()); 
 		});
+
 		SpringApplication.run(BlogJpaApplication.class, args);
 	}
 
