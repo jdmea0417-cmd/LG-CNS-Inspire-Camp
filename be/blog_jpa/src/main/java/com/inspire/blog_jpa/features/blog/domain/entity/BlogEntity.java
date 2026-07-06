@@ -47,6 +47,9 @@ public class BlogEntity {
     @Column(nullable = false , length = 200)
     private String      content ;
 
+    private String      keyword;          // 생성에 사용된 키워드
+    private boolean     aiGenerated;     // AI 생성 여부
+
 
     // 외래키
     // fetch : select * from user where id= x ; blog 조회하지 않음. 

@@ -1,5 +1,6 @@
 package com.inspire.blog_jpa.features.blog.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -20,6 +21,12 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Integer>{
         WHERE       b.blogId = :blogId 
     """)
     public Optional<BlogEntity> findByComments(@Param("blogId") Integer blogId) ;
+
+    // 메서드 이름 기반 쿼리 - 
+    // 대소문자 무시하고 keyword 컬럼에 부분 일치(LIKE '%keyword%') 검색
+    // @Query("SELECT b FROM Blog b WHERE LOWER(b.keyword) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    // public List<Blog> findByKeywordContainingIgnoreCase(@Param("keyword") String keyword);
+    public List<BlogEntity> findByKeywordContainingIgnoreCase(String keyword);
 
 }
 

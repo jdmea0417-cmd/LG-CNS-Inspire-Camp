@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 // jwt version 에서는 필터를 사용하므로 없어도 됨.
 // @Configuration
 public class CorsConfig implements WebMvcConfigurer { 
+    
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

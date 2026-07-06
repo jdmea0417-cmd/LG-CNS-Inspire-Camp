@@ -18,6 +18,9 @@ import lombok.ToString;
 public class BlogRequestDTO {
 
     private String title, content, email ; 
+    
+    // ai 
+    private String keyword ;
 
     public BlogEntity toEntity(UserEntity request) {
         return BlogEntity.builder()

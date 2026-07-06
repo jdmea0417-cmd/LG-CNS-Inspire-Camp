@@ -46,6 +46,15 @@ spring:
             password:
             timeout: 6000ms
 
+    # openai
+    ai:
+        openai:
+            api-key: ${OPEN_AI_KEY}
+            chat:
+                options:
+                    model: ${OPEN_AI_MODEL}
+        
+
 
 # mybatis setting
 # mybatis:
