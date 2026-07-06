@@ -1,6 +1,7 @@
 package com.inspire.blog_jpa.features.blog.ctrl;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inspire.blog_jpa.features.blog.domain.dto.BlogRequestDTO;
@@ -77,5 +78,19 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+
+    @PostMapping("/blogs/ai")
+    public ResponseEntity<?> generate(@RequestBody BlogRequestDTO request) {
+        System.out.println(">>>> debug blog controller blogs/ai generate"); 
+        System.out.println(">>>> debug params : "+request); 
+        
+        return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(blogService.generate(request.getKeyword())); 
+    }
+    
+
+
     
 }

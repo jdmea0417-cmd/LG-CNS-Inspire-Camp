@@ -2,6 +2,9 @@ package com.inspire.blog_jpa.features.blog.service;
 
 import java.util.List;
 
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,9 @@ public class BlogService {
 
     private final UserRepository    userRepository;
     private final BlogRepository    blogRepository;
+    private final ChatClient        chatClient    ; 
+
+
 
     // private final CommentRepository    commentRepository;
 
@@ -27,8 +33,13 @@ public class BlogService {
 
         // spring security add 
         // SecurityContextHolder 
-        
-        return userRepository.findById(request.getEmail())
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        System.out.println(">>>> debug blog service request email                        : "+request.getEmail()); 
+        System.out.println(">>>> debug blog service SecurityContextHolder authentication : "+email); 
+        // return userRepository.findById(request.getEmail())
+
+        return userRepository.findById(email) 
             .map(user -> {
                 BlogEntity blog = blogRepository.save(
                     request.toEntity(user)
@@ -76,4 +87,25 @@ public class BlogService {
 
     }
 
+    public String generate(String keyword) {
+        System.out.println(">>>> debug blog service generate"); 
+        String genContent = chatClient.prompt()
+                                .system("""
+                                    너는 전문 블로그 작가야.
+                                    키워드에 해당하는 내용으로 본문을 만들어줘.
+                                    markdown  형식으로 작성해줘.        
+                                """)
+                                .user("""
+                                    키워드 %s 분야에 해당하는 블로그 작성해줘.
+                                    500자 이내로 작성해줘.        
+                                """.formatted(keyword)) 
+                                .call()
+                                .content();
+        System.out.println(">>>> debug generate content");
+        System.out.println(genContent);
+        return genContent ;
+
+    }
+
+    
 }
